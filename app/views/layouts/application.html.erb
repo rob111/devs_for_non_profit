@@ -4,31 +4,59 @@
   <title>DevsForNonProfit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <%= stylesheet_link_tag 'application', media: 'all' %>
-  
+
     <%= javascript_include_tag "vendor/modernizr" %>
-  
+
   <%= csrf_meta_tags %>
 </head>
 <body>
-  
-  <nav class="top-bar">
-    <ul class="title-area">
-      <li class="name">
-        <h1><a href="/">DevsForNonProfit</a></h1>
-      </li>
-    </ul>
-
-    <section class="top-bar-section">
-      <ul class="right">
-        <%- if current_user -%>
-          <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></li>
-        <%- else -%>
-          <li><%= link_to 'Sign Up', new_user_registration_path %></li>
-          <li><%= link_to 'Sign In', new_user_session_path %></li>
-        <%- end -%>
+  <div class="fixed">
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/">DevsForNonProfit</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon">
+          <a href="#"><span>menu</span></a>
+        </li>
       </ul>
-    </section>
-  </nav>
+
+      <section class="top-bar-section">
+        <ul class="right">
+          <ul class="dropdown">
+          </ul>
+
+
+          <%- if current_user -%>
+            <% if developer_signed_in? %>
+            <li><%= link_to 'Dashboard', dashboard_root_path%></li>
+              <li><%= link_to 'Log out', destroy_developer_session_path, method: :delete %></li>
+            <% end %>
+            <% if client_signed_in? %>
+            <li><%= link_to 'Dashboard', dashboard_root_path%></li>
+              <li><%= link_to 'Log out', destroy_client_session_path, method: :delete %></li>
+            <% end %>
+            <%- else -%>
+            <li class="has-dropdown">
+              <a href="#">Developer</a>
+              <ul class="dropdown">
+                <li><%= link_to 'Sign Up', new_developer_registration_path %></li>
+                <li><%= link_to 'Sign In', new_developer_session_path %></li>
+              </ul>
+            </li>
+            <li class="has-dropdown">
+              <a href="#">Non-Profit</a>
+              <ul class="dropdown">
+                <%= hidden_field_tag('role', 'client') %>
+                <li><%= link_to 'Sign Up', new_client_registration_path %></li>
+                <li><%= link_to 'Sign In', new_client_session_path %></li>
+              </ul>
+            </li>
+          <%- end -%>
+        </ul>
+      </section>
+    </nav>
+  </div>
 
   <%- flash.each do |key, value| -%>
     <div class="flash flash-<%= key %>">
@@ -36,7 +64,9 @@
     </div>
   <%- end -%>
 
-  <%= yield %>
+  <div class="container">
+    <%= yield %>
+  </div>
 
   <%= javascript_include_tag 'application' %>
   <%= yield :extra_footer %>

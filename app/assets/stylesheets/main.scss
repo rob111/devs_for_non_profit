@@ -1,0 +1,25 @@
+.top-bar{
+  background: #1B4F72;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button){
+  background: #1B4F72;
+}
+
+body{
+  background-color: #FFFAFA;
+}
+
+.container{
+  width: 800px;
+  margin: auto;
+  background-color: #E0FFFF;
+  height: 100%;
+  margin: 35px auto  35px auto;
+
+}
+
+.main-page{
+  font-size: 50px;
+  text-align: center;
+}
