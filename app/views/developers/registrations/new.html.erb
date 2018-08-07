@@ -1,4 +1,4 @@
-<h2>Sign up</h2>
+<h2>Sign up as a Developer</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
@@ -40,8 +40,13 @@
     </div>
   <% end %>
 
+
   <div class="actions">
     <%= f.submit "Sign up" %>
+  </div>
+
+  <div class="field">
+    <a href="#">Sign Up with Github account</a>
   </div>
 <% end %>
 
