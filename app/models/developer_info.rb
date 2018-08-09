@@ -1,0 +1,3 @@
+class DeveloperInfo < ApplicationRecord
+
+end
