@@ -1,0 +1,43 @@
+<h2>Edit User</h2>
+
+<%= form_for(@user) do |f| %>
+  <div class="field">
+    <%= f.label :username %><br />
+    <%= f.text_field :username %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Update User', class: 'btn-and-link' %>
+  </div>
+<% end %>
+
+<hr>
+
+<%= form_for(@user) do |f| %>
+  <div class="field">
+    <%= f.file_field :profile_photo %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit  'Upload Photo', class: 'btn-and-link' %>
+  </div>
+<% end %>
+
+
+<hr>
+
+<%= form_for(@user) do |f| %>
+  <div class="field">
+    <%= f.label :password, "Update Password" %><br />
+    <%= f.password_field :password %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Update Password', {class: 'btn-and-link'}  %>
+  </div>
+<% end %>
