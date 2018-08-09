@@ -1,3 +1,8 @@
+// Hide controls on small
+$orbit-nav-hide-for-small: true !default;
+$orbit-bullet-hide-for-small: true !default;
+$orbit-timer-hide-for-small: true !default;
+
 .top-bar{
   background: #1B4F72;
 }
@@ -13,7 +18,6 @@ body{
 .container{
   width: 800px;
   margin: auto;
-  background-color: #E0FFFF;
   height: 100%;
   margin: 35px auto  35px auto;
 
@@ -22,4 +26,18 @@ body{
 .main-page{
   font-size: 50px;
   text-align: center;
+}
+
+.profile-photo{
+  width: 150px;
+  height: 250px;
+  background-color: grey;
+}
+
+.project-tile{
+  border: 2px solid #696969;
+  margin-bottom: 15px;
+  margin-left: 0;
+  background-color: #87afc7;
+  padding: 15px;
 }
