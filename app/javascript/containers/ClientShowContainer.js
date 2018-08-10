@@ -50,6 +50,13 @@ class ClientShowContainer extends Component {
 
   render(){
 
+    let profilePhoto;
+    if (this.state.profile_photo.url != null ) {
+      profilePhoto = <img src={this.state.profile_photo.url}/>
+    }else{
+      profilePhoto = <img src='/assets/default-picture.jpg'/>
+    }
+
     let clientProjects = this.state.projects.map( project => {
       return (
         <ClientProjectTile
@@ -67,7 +74,7 @@ class ClientShowContainer extends Component {
       <div>
         <div className="row">
           <div className="small-12 medium-6 large-4 columns profile-photo">
-            {this.state.profile_photo}
+            {profilePhoto}
           </div>
           <div className="large-8 medium-6 small-12 columns">
             <div className="full-name"><h2>{this.state.full_name}</h2></div>
@@ -85,9 +92,7 @@ class ClientShowContainer extends Component {
           <div className="small-12 medium-6 large-4 columns"></div>
           <div className="large-10 medium-8 small-12 columns">
             <h2>Client Projects</h2>
-            <ul>
-              {clientProjects}
-            </ul>
+            <ul>{clientProjects}</ul>
           </div>
         </div>
       </div>

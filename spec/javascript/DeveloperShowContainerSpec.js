@@ -17,7 +17,7 @@ describe('DeveloperShowContainerSpec', () => {
       username: 'jdoe',
       email: 'jdoe@test.com',
       company: 'Google',
-      profile_photo: null
+      profile_photo: {url: 'https://d36gb93zszu20a.cloudfront.net/i/br/fma2.jpg'}
     },
     projects = [
       {
@@ -37,7 +37,7 @@ describe('DeveloperShowContainerSpec', () => {
         full_name: "Mary Johns",
         company: "Salvation Army",
         isadmin: false,
-        profile_photo: null
+        profile_photo: {url: 'https://d36gb93zszu20a.cloudfront.net/i/br/fma2.jpg'}
       }
     ],
     info = {

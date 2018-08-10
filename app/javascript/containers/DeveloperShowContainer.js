@@ -47,6 +47,23 @@ class DeveloperShowContainer extends Component {
   }
 
   render(){
+
+    let developerInfo;
+    let yearOfExperience = '';
+    let technologies = '';
+    let rate = '';
+    if (this.state.developer_info != null) {
+      yearOfExperience = <div>Years of experience: {this.state.developer_info.years_of_experience} years</div>;
+      technologies = <div>Preferred technologies: {this.state.developer_info.preferred_technologies}</div>;
+      rate = <div>Base hourly rate: ${this.state.developer_info.base_hourly_rate}</div>;
+    }
+
+    let profilePhoto;
+    if (this.state.profile_photo.url != null ) {
+      profilePhoto = <img src={this.state.profile_photo.url}/>
+    }else{
+      profilePhoto = <img src='/assets/default-picture.jpg'/>
+    }
     let clientCompany = '';
     let clientFullName = '';
     let developerProjects = this.state.projects.map(project => {
@@ -74,24 +91,23 @@ class DeveloperShowContainer extends Component {
       <div>
         <div className="row">
           <div className="small-12 medium-6 large-4 columns profile-photo">
-            {this.state.profile_photo}
+            {profilePhoto}
           </div>
           <div className="large-8 medium-6 small-12 columns">
             <div><h2>{this.state.full_name}</h2></div>
             <hr/>
             <div id="company">Company: {this.state.company}</div>
             <div id="email">Email: {this.state.email}</div>
-            <div>Years of experience: {this.state.developer_info.years_of_experience} years</div>
-            <div>Preferred technologies: {this.state.developer_info.preferred_technologies}</div>
-            <div>Base hourly rate: ${this.state.developer_info.base_hourly_rate}
-            </div>
+            <div>{yearOfExperience}</div>
+            <div>{technologies}</div>
+            <div>{rate}</div>
           </div>
         </div>
         <div className="row">
           <div className="small-12 medium-6 large-4 columns"></div>
           <div className="large-10 medium-8 small-12 columns">
             <h2>Developer Projects</h2>
-            <div>{developerProjects}</div>
+            <ul>{developerProjects}</ul>
           </div>
         </div>
       </div>

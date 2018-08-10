@@ -28,7 +28,7 @@ class ClientsController < ApplicationController
   end
 
   def client_params
-    params.require(:client).permit(:email, :username, :password)
+    params.require(:client).permit(:email, :username, :password, :profile_photo)
   end
 
   def authorize_client
