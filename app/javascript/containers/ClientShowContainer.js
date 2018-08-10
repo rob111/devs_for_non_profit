@@ -70,6 +70,9 @@ class ClientShowContainer extends Component {
       )
     })
 
+    let newProjectLink = <div><a href={`/clients/${this.props.params.id}/projects/new`}><div className="new-project-btn">New Project</div></a></div>;
+
+
     return(
       <div>
         <div className="row">
@@ -93,6 +96,7 @@ class ClientShowContainer extends Component {
           <div className="large-10 medium-8 small-12 columns">
             <h2>Client Projects</h2>
             <ul>{clientProjects}</ul>
+            {newProjectLink}
           </div>
         </div>
       </div>
