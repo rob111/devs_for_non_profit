@@ -40,6 +40,10 @@
     </div>
   <% end %>
 
+  <div class="field">
+    <%= f.label :profile_photo, 'Profile Photo (Optional)'%> <br />
+    <%= f.file_field :profile_photo, id: 'center' %>
+  </div>
 
   <div class="actions">
     <%= f.submit "Sign up" %>

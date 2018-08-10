@@ -16,7 +16,7 @@ describe('DeveloperShowContainerSpec', () => {
       full_name: "Betsy Dawson",
       company: "CutePuppies",
       email: "client@gmail.com",
-      profile_photo: null
+      profile_photo: {url: 'https://d36gb93zszu20a.cloudfront.net/i/br/fma2.jpg'}
     },
     projects = [
       {
