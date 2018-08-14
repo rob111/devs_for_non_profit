@@ -4,7 +4,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :developers, only: [:index, :show, :new]
       resources :clients, only: [:index, :show, :new]
-      resources :projects, only: [:index, :show, :new]
+      resources :projects, only: [:index, :show, :new, :update]
+      resources :collaborations, only: [:new, :create]
     end
   end
 
