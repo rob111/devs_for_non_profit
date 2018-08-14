@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ClientProjectTile from '../components/ClientProjectTile';
+import ProjectTile from '../components/ProjectTile';
 
 class ClientShowContainer extends Component {
   constructor(props){
@@ -61,7 +61,7 @@ class ClientShowContainer extends Component {
 
     let clientProjects = this.state.projects.map( project => {
       return (
-        <ClientProjectTile
+        <ProjectTile
           key={project.id}
           id={project.id}
           description={project.description}
@@ -72,7 +72,7 @@ class ClientShowContainer extends Component {
       )
     })
 
-    let newProjectLink = <div><a href={`/clients/${this.props.params.id}/projects/new`}><div className="new-project-btn">New Project</div></a></div>;
+    let newProjectLink = <a className="button" href={`/clients/${this.props.params.id}/projects/new`}>New Project</a>;
 
 
     return(

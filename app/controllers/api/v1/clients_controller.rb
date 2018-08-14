@@ -1,4 +1,4 @@
-class Api::V1::ClientsController < ApplicationController
+class Api::V1::ClientsController < ApiController
 
   def show
     render json: {

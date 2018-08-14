@@ -49,3 +49,26 @@ body{
   position: relative;
   clip: rect(0px,100px,100px,0px);
 }
+
+.orbin-caption{
+  font-size: 2rem;
+}
+
+.log-in{
+  border: 2px solid #787878;
+  padding: 20px 20px 20px 20px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+div.main-page-projects :hover{
+  color: white;
+  background-color: #0099CC;
+}
+
+.main-page-projects{
+  font-size: 25px;
+}

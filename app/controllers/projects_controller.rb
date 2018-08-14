@@ -1,8 +1,10 @@
 class ProjectsController < ApplicationController
   before_action :authorize_user, except: [:index, :show]
 
-  def show
+  def index
+  end
 
+  def show
   end
 
   def new
@@ -25,6 +27,9 @@ class ProjectsController < ApplicationController
       flash.now[:alert] = @project.errors.full_messages.join(', ')
       render :new
     end
+  end
+
+  def update
   end
 
   private

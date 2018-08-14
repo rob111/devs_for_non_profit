@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const ClientProjectTile = (props) => {
-
-
+const ProjectIndexTile = (props) => {
   return (
-    <Link to={`/projects/${props.id}`}>
+    <Link to={`/projects`}>
       <div className="project-tile">
         <div id="project-description">Description: {props.description}</div><br/>
         <div id="project-status">Status: {props.status}</div><br/>
@@ -13,7 +11,8 @@ const ClientProjectTile = (props) => {
         Price: ${props.price}<br/>
       </div>
     </Link>
+
   )
 }
 
-export default ClientProjectTile;
+export default ProjectIndexTile;

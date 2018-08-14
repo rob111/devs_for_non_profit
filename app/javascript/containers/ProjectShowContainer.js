@@ -15,7 +15,9 @@ class ProjectShowContainer extends Component {
       client_id: 0,
       active_user_id: null,
       projectDevelopers: [],
-      selectedDeveloperId: 0
+      selectedDeveloperId: 0,
+      company: '',
+      client_rep: ''
     }
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.addDeveloper = this.addDeveloper.bind(this);
@@ -49,7 +51,9 @@ class ProjectShowContainer extends Component {
         price: body.project.price,
         client_id: body.project.client_id,
         projectDevelopers: body.developers,
-        active_user_id: body.current_user.id
+        active_user_id: body.current_user.id,
+        company: body.client.company,
+        client_rep: body.client.full_name
       })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -110,15 +114,46 @@ class ProjectShowContainer extends Component {
     })
   }
 
-  handleUpdateProject(selectedStatus){
-    this.setState({status: selectedStatus})
-    // fetch
-    // update current project
+  handleUpdateProject(event){
+    event.preventDefault();
+    let formPayload = {
+      project: {
+        project_id: this.state.project_id,
+        description: this.state.description,
+        status: this.state.status,
+        deadline: this.state.deadline,
+        price: this.state.price,
+        client_id: this.state.client_id
+      }
+    }
+
+    fetch(`/api/v1/projects/${this.state.project_id}.json`,{
+      credentials: 'same-origin',
+      method: 'PATCH',
+      body: JSON.stringify(formPayload),
+      headers: { 'Content-Type': 'application/json'}
+    })
+    .then(response => {
+       if(response.ok){
+         return response
+       } else {
+         let errorMessage = `${response.status} (${response.statusText})`,
+             error = new Error(errorMessage)
+         throw(error)
+       }
+     })
+     .then(response => response.json())
+     .then(body => {
+       this.setState({
+         status: body.status
+       })
+     })
+     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   handleStatusChange(event){
     event.preventDefault(event);
-
+    this.setState({status: event.target.value})
   }
 
   addDeveloperToProject(){
@@ -142,11 +177,11 @@ class ProjectShowContainer extends Component {
             <option value=''></option>
             {this.changeStatus()}
           </select>
+          <input type="submit" className="button" value="Change Status"/>
         </form>
       </div>
     )
   }
-
 
   render() {
 
@@ -175,6 +210,8 @@ class ProjectShowContainer extends Component {
     return(
       <div>
         <div><h2>{this.state.description}</h2></div>
+        <div>Company: {this.state.company}</div>
+        <div>Contact: {this.state.client_rep}</div>
         <div>Status: {this.state.status}</div>
         <div className="dropdown">
           {changeProjectStatus}

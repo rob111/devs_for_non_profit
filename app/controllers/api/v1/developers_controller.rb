@@ -1,4 +1,4 @@
-class Api::V1::DevelopersController < ApplicationController
+class Api::V1::DevelopersController < ApiController
 
   def index
     render json: Developer.all
