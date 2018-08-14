@@ -1,19 +1,29 @@
 import React, { Component } from 'react';
 import BackButton from '../components/BackButton';
 import DeveloperTile from '../components/DeveloperTile';
+import SelectDeveloper from '../components/SelectDeveloper';
 
 class ProjectShowContainer extends Component {
   constructor(props) {
     super(props);
     this.state={
+      project_id: '',
       description: '',
       status: '',
       deadline: '',
       price: '',
       client_id: 0,
-      developers: []
-
+      active_user_id: null,
+      projectDevelopers: [],
+      selectedDeveloperId: 0
     }
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.addDeveloper = this.addDeveloper.bind(this);
+    this.changeStatus = this.changeStatus.bind(this);
+    this.handleStatusChange = this.handleStatusChange.bind(this);
+    this.addDeveloperToProject = this.addDeveloperToProject.bind(this);
+    this.addChangeStatus = this.addChangeStatus.bind(this);
+    this.handleUpdateProject = this.handleUpdateProject.bind(this);
   }
 
   componentDidMount() {
@@ -32,20 +42,125 @@ class ProjectShowContainer extends Component {
     .then(response => response.json())
     .then(body => {
       this.setState({
+        project_id: body.project.id,
         description: body.project.description,
         status: body.project.status,
         deadline: body.project.deadline,
         price: body.project.price,
         client_id: body.project.client_id,
-        developers: body.developers
+        projectDevelopers: body.developers,
+        active_user_id: body.current_user.id
       })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
+
   }
+
+
+  handleSelectChange(selectedOption){
+    this.setState({selectedDeveloperId: selectedOption});
+  }
+
+  addDeveloper(event){
+    let devId = parseInt(this.state.selectedDeveloperId);
+    let formPayload ={
+      project_id: this.state.project_id,
+      developer_id: devId
+    }
+
+    fetch(`/api/v1/collaborations`,{
+      credentials: 'same-origin',
+      method: 'POST',
+      body: JSON.stringify(formPayload),
+      headers: { 'Content-Type': 'application/json'}
+    })
+    .then(response => {
+       if(response.ok){
+         return response
+       } else {
+         let errorMessage = `${response.status} (${response.statusText})`,
+             error = new Error(errorMessage)
+         throw(error)
+       }
+     })
+     .then(response => response.json())
+     .then(body => {
+       let newDevelopers = this.state.projectDevelopers.concat(body.developer)
+
+       this.setState({
+         projectDevelopers: newDevelopers
+       })
+     })
+     .catch(error => console.error(`Error in fetch: ${error.message}`));
+  }
+
+  changeStatus(){
+    const statuses = [
+      {value: 'Proposed', label: 'Proposed'},
+      {value: 'Active', label: 'Active'},
+      {value: 'Completed', label: 'Completed'},
+      {value: 'Canceled', label: 'Canceled'}
+    ]
+    return statuses.map((status, index) => {
+      return(
+          <option key={index} value={status.value}>
+            {status.label}
+          </option>
+      )
+    })
+  }
+
+  handleUpdateProject(selectedStatus){
+    this.setState({status: selectedStatus})
+    // fetch
+    // update current project
+  }
+
+  handleStatusChange(event){
+    event.preventDefault(event);
+
+  }
+
+  addDeveloperToProject(){
+    return(
+      <div>
+        <SelectDeveloper
+          handleSelectChange={this.handleSelectChange}
+          projectDevelopers={this.state.projectDevelopers}
+          />
+        <button onClick={this.addDeveloper}>Add developer</button>
+      </div>
+    )
+  }
+
+  addChangeStatus(){
+    return(
+      <div>
+         <p>Change status: </p>
+        <form onSubmit={this.handleUpdateProject}>
+          <select onChange={this.handleStatusChange}>
+            <option value=''></option>
+            {this.changeStatus()}
+          </select>
+        </form>
+      </div>
+    )
+  }
+
 
   render() {
 
-    let projectDevelopers = this.state.developers.map(developer => {
+    let changeProjectStatus;
+    if (this.state.active_user_id == this.state.client_id) {
+      changeProjectStatus = this.addChangeStatus();
+    }
+
+    let addDeveloper;
+    if (this.state.active_user_id == this.state.client_id) {
+      addDeveloper = this.addDeveloperToProject();
+    }
+
+    let developersArr = this.state.projectDevelopers.map(developer => {
       return(
         <DeveloperTile
           key={developer.id}
@@ -53,6 +168,7 @@ class ProjectShowContainer extends Component {
           username={developer.username}
           fullName={developer.full_name}
           email={developer.email}
+          photo={developer.profile_photo.url}
           />
       )
     })
@@ -60,12 +176,14 @@ class ProjectShowContainer extends Component {
       <div>
         <div><h2>{this.state.description}</h2></div>
         <div>Status: {this.state.status}</div>
+        <div className="dropdown">
+          {changeProjectStatus}
+        </div>
         <div>Deadline: {this.state.deadline}</div>
         <div><h3>Developers:</h3></div>
-        <div>{projectDevelopers}</div>
-
-        <div>
-          <button>Message to client</button>
+        <div>{developersArr}</div>
+        <div className="dropdown">
+          {addDeveloper}
         </div>
         <BackButton />
       </div>

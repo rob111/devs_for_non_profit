@@ -40,3 +40,12 @@ body{
   background-color: #87afc7;
   padding: 15px;
 }
+
+.dropdown{
+  width: 200px;
+}
+
+.photo-tile{
+  position: relative;
+  clip: rect(0px,100px,100px,0px);
+}

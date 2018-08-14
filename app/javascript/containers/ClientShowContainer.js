@@ -13,7 +13,8 @@ class ClientShowContainer extends Component {
       projects: [],
       company_size: '',
       rep_position: '',
-      description: ''
+      description: '',
+      current_user_id: null
     }
   }
 
@@ -42,7 +43,8 @@ class ClientShowContainer extends Component {
         projects: body.projects,
         company_size: body.client_info.company_size,
         rep_position: body.client_info.rep_position,
-        description: body.client_info.description
+        description: body.client_info.description,
+        current_user_id: body.client.id
       })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));

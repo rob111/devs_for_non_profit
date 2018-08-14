@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  before_action :authorize_user, except: [:index, :show]
+
   def show
 
   end
@@ -22,6 +24,14 @@ class ProjectsController < ApplicationController
     else
       flash.now[:alert] = @project.errors.full_messages.join(', ')
       render :new
+    end
+  end
+
+  private
+  def authorize_user
+    if !user_signed_in?
+      flash[:notice] = "You must be logged in to view that page."
+      redirect_to root_path
     end
   end
 

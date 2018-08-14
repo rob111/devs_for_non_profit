@@ -1,7 +1,9 @@
 class Api::V1::DevelopersController < ApplicationController
+
   def index
     render json: Developer.all
   end
+
   def show
     render json: {
       developer: serialized_developer,
