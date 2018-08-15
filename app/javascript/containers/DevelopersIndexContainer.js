@@ -49,6 +49,7 @@ class DevelopersIndexContainer extends Component {
     return(
 
       <div className="developer-list">
+      <h1>All Developers</h1>
         {developersArr}
       </div>
     )

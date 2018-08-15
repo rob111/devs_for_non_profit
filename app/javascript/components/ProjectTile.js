@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const ClientProjectTile = (props) => {
-
-
+const ProjectTile = (props) => {
   return (
     <Link to={`/projects/${props.id}`}>
       <div className="project-tile">
@@ -13,7 +11,8 @@ const ClientProjectTile = (props) => {
         Price: ${props.price}<br/>
       </div>
     </Link>
+
   )
 }
 
-export default ClientProjectTile;
+export default ProjectTile;

@@ -29,15 +29,5 @@ Rails.application.routes.draw do
 
     root to: "dashboard#index"
   end
-
-  # authenticated :user do
-  # root 'secret#index', as: :authenticated_root
-  # end
-  #
-  # root "home#index"
-
-
-
   root to: 'homes#index'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
