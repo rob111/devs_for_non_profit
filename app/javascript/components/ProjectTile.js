@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 const ProjectTile = (props) => {
   return (
-    <Link to={`/projects/${props.id}`}>
+    <Link to={`/projects/${props.link}`}>
       <div className="project-tile">
         <div id="project-description">Description: {props.description}</div><br/>
         <div id="project-status">Status: {props.status}</div><br/>

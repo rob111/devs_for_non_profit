@@ -2,9 +2,12 @@ class Api::V1::ProjectsController < ApiController
   # before_action :authorize_user, except: [:index]
 
   def index
+    if current_user
+      user_id = current_user.id
+    end
     render json: {
       project: Project.all,
-      current_user: {username: current_user.username || current_user.empty?, id: current_user.id || current_user.empty?}
+      current_user_id: user_id
     }
   end
 

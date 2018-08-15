@@ -29,7 +29,7 @@ class ProjectsIndexContainer extends Component {
     .then(body => {
       this.setState({
         projects: body.project,
-        active_user_id: body.current_user.id
+        active_user_id: body.current_user_id
       })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -75,7 +75,7 @@ class ProjectsIndexContainer extends Component {
               status={project.status}
               deadline={project.deadline}
               price={project.price}
-              link={'#'}
+              link={'/'}
             />
           </div>
         )
