@@ -11,6 +11,7 @@ const ProjectTile = (props) => {
         Price: ${props.price}<br/>
       </div>
     </Link>
+
   )
 }
 

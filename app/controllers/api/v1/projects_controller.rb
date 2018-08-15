@@ -2,8 +2,10 @@ class Api::V1::ProjectsController < ApiController
   # before_action :authorize_user, except: [:index]
 
   def index
-    render json: Project.all, each_serializer: ProjectSerializer
-
+    render json: {
+      project: Project.all,
+      current_user: {username: current_user.username || current_user.empty?, id: current_user.id || current_user.empty?}
+    }
   end
 
   def show
