@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProjectIndexTile from '../components/ProjectIndexTile';
+import ProjectTile from '../components/ProjectTile';
 
 class ProjectsContainer extends Component {
   constructor(props) {
