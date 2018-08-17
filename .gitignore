@@ -34,6 +34,7 @@ coverage/*
 
 # Ignore uploaded files in test/development
 /public/uploads
+/public/images
 
 # Ignore environment variables
 .env
