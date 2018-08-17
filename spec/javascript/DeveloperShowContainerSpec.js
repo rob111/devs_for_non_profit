@@ -9,6 +9,7 @@ describe('DeveloperShowContainerSpec', () => {
   let projects;
   let clients;
   let info;
+  let current_user;
 
   beforeEach(() => {
     developer = {
@@ -47,12 +48,16 @@ describe('DeveloperShowContainerSpec', () => {
       preferred_technologies: 'Ruby on Rails',
       base_hourly_rate: '50'
 
+    },
+    current_user = {
+      username: 'jdoe',
+      id: 1
     }
 
     fetchMock.get(`/api/v1/developers/${developer.id}`, {
       credentials: 'same-origin',
       status: 200,
-      body: {developer: developer, projects: projects, clients: clients, info: info }
+      body: {developer: developer, projects: projects, clients: clients, info: info, current_user: current_user }
     })
     wrapper = mount(<DeveloperShowContainer params={{id: developer.id}} />)
   });

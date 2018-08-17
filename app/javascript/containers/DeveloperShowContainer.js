@@ -12,7 +12,8 @@ class DeveloperShowContainer extends Component {
       profile_photo: '',
       projects: [],
       clients: [],
-      developer_info: []
+      developer_info: [],
+      current_user_id: ''
     }
   }
 
@@ -40,7 +41,8 @@ class DeveloperShowContainer extends Component {
         profile_photo: body.developer.profile_photo,
         projects: body.projects,
         clients: body.clients,
-        developer_info: body.info
+        developer_info: body.info,
+        current_user_id: body.current_user.id
       })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -48,6 +50,10 @@ class DeveloperShowContainer extends Component {
 
   render(){
 
+    let sendMessageButton;
+    if (this.state.current_user_id != `${this.props.params.id}` ) {
+      sendMessageButton = <a className="button" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
+    }
     let developerInfo;
     let yearOfExperience = '';
     let technologies = '';
@@ -90,10 +96,10 @@ class DeveloperShowContainer extends Component {
     return(
       <div>
         <div className="row">
-          <div className="small-12 medium-6 large-4 columns profile-photo">
+          <div className="small-12 medium-4 large-2 columns profile-photo">
             {profilePhoto}
           </div>
-          <div className="large-8 medium-6 small-12 columns">
+          <div className="large-8 medium-8 small-12 columns">
             <div><h2>{this.state.full_name}</h2></div>
             <hr/>
             <div id="company">Company: {this.state.company}</div>
@@ -101,12 +107,13 @@ class DeveloperShowContainer extends Component {
             <div>{yearOfExperience}</div>
             <div>{technologies}</div>
             <div>{rate}</div>
+            <div>{sendMessageButton}</div>
           </div>
         </div>
         <div className="row">
-          <div className="small-12 medium-6 large-4 columns"></div>
-          <div className="large-10 medium-8 small-12 columns">
-            <h2>Developer Projects</h2>
+          <div className="small-12 medium-4 large-2 columns"></div>
+          <div className="large-8 medium-8 small-12 columns">
+            <h2 id="title">Developer Projects</h2>
             <ul>{developerProjects}</ul>
           </div>
         </div>
