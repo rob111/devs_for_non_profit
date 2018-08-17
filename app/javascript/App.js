@@ -5,6 +5,7 @@ import ClientShowContainer from './containers/ClientShowContainer';
 import ProjectShowContainer from './containers/ProjectShowContainer';
 import DevelopersIndexContainer from './containers/DevelopersIndexContainer';
 import ProjectsIndexContainer from './containers/ProjectsIndexContainer';
+// import ChatContainer from './containers/ChatContainer';
 
 
 const App = (props) => {

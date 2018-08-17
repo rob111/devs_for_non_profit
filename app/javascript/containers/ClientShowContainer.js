@@ -51,7 +51,10 @@ class ClientShowContainer extends Component {
   }
 
   render(){
-
+    let sendMessageButton;
+    if (this.state.current_user_id != `${this.props.params.id}` ) {
+      sendMessageButton = <a className="button hidden" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
+    }
     let profilePhoto;
     if (this.state.profile_photo.url != null ) {
       profilePhoto = <img src={this.state.profile_photo.url}/>
@@ -68,6 +71,7 @@ class ClientShowContainer extends Component {
           status={project.status}
           deadline={project.deadline}
           price={project.price}
+          link={`/projects/${project.id}`}
         />
       )
     })
@@ -78,10 +82,10 @@ class ClientShowContainer extends Component {
     return(
       <div>
         <div className="row">
-          <div className="small-12 medium-6 large-4 columns profile-photo">
+          <div className="small-12 medium-4 large-2 columns profile-photo">
             {profilePhoto}
           </div>
-          <div className="large-8 medium-6 small-12 columns">
+          <div className="large-8 medium-8 small-12 columns">
             <div className="full-name"><h2>{this.state.full_name}</h2></div>
             <hr/>
             <div>Title: {this.state.rep_position}</div>
@@ -89,14 +93,15 @@ class ClientShowContainer extends Component {
             <div className="email">Email: {this.state.email}</div>
             <div>Company size: {this.state.company_size} people</div>
             <div>About company: {this.state.description}</div>
+            <div>{sendMessageButton}</div>
           </div>
           <div></div>
           <div></div>
         </div>
         <div className="row">
-          <div className="small-12 medium-6 large-4 columns"></div>
-          <div className="large-10 medium-8 small-12 columns">
-            <h2>Client Projects</h2>
+          <div className="small-12 medium-4 large-2 columns"></div>
+          <div className="large-8 medium-8 small-12 columns">
+            <h2 id="title">Client Projects</h2>
             <ul>{clientProjects}</ul>
             {newProjectLink}
           </div>

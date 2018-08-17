@@ -9,7 +9,8 @@ class Api::V1::DevelopersController < ApiController
       developer: serialized_developer,
       projects: serialized_projects,
       clients: Developer.find(params[:id]).clients,
-      info: Developer.find(params[:id]).developer_info
+      info: Developer.find(params[:id]).developer_info,
+      current_user: {username: current_user.username, id: current_user.id}
     }
   end
 

@@ -75,7 +75,7 @@ class ProjectsIndexContainer extends Component {
               status={project.status}
               deadline={project.deadline}
               price={project.price}
-              link={'/'}
+              link={'/projects'}
             />
           </div>
         )

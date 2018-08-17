@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_08_221208) do
+ActiveRecord::Schema.define(version: 2018_08_16_184059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chats", force: :cascade do |t|
+    t.integer "author_id"
+    t.integer "receiver_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id", "receiver_id"], name: "index_chats_on_author_id_and_receiver_id", unique: true
+  end
 
   create_table "client_infos", force: :cascade do |t|
     t.bigint "client_id", null: false
@@ -42,6 +50,16 @@ ActiveRecord::Schema.define(version: 2018_08_08_221208) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["developer_id"], name: "index_developer_infos_on_developer_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "body", null: false
+    t.bigint "user_id"
+    t.bigint "chat_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -74,6 +92,10 @@ ActiveRecord::Schema.define(version: 2018_08_08_221208) do
     t.string "company"
     t.boolean "isadmin", default: false
     t.string "profile_photo"
+    t.string "avatar_url"
+    t.string "uid"
+    t.string "provider"
+    t.string "oauth_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

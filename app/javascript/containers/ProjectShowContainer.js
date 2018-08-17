@@ -211,7 +211,7 @@ class ProjectShowContainer extends Component {
       <div>
         <div><h2>{this.state.description}</h2></div>
         <div>Company: {this.state.company}</div>
-        <div>Contact: {this.state.client_rep}</div>
+        <div>Contact: <a href={`/clients/${this.state.client_id}`}>{this.state.client_rep}</a></div>
         <div>Status: {this.state.status}</div>
         <div className="dropdown">
           {changeProjectStatus}

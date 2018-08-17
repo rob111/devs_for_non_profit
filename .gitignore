@@ -37,3 +37,4 @@ coverage/*
 
 # Ignore environment variables
 .env
+config/secrets.yml

@@ -29,6 +29,7 @@
 
           <%- if current_user -%>
             <% if developer_signed_in? %>
+            <li><%= link_to 'Messages', chats_path %></li>
             <li><%= link_to 'Find a project', projects_path %></li>
             <li class="has-dropdown">
               <a href="#">Signed in as <%= current_user.username %></a>
@@ -40,6 +41,7 @@
             <li><%= link_to 'Log out', destroy_developer_session_path, method: :delete %></li>
             <% end %>
             <% if client_signed_in? %>
+            <li><%= link_to 'Messages', chats_path %></li>
             <li><%= link_to 'Find a developer', developers_path %></li>
             <li class="has-dropdown">
               <a href="#">Signed in as <%= current_user.username %></a>
@@ -54,6 +56,7 @@
             <li class="has-dropdown">
               <a href="#">Developer</a>
               <ul class="dropdown">
+                <li><%= link_to 'Sign In with Github', developer_github_omniauth_authorize_path %></li>
                 <li><%= link_to 'Sign Up', new_developer_registration_path %></li>
                 <li><%= link_to 'Sign In', new_developer_session_path %></li>
               </ul>

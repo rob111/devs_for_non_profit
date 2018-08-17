@@ -1,0 +1,21 @@
+<h1>Chatting with <%= @chat.with(current_user).full_name %></h1>
+
+<div id="chat-main">
+  <div id="chat-body">
+      <% @chat.messages.each do |message| %>
+      <% if current_user.id == message.user_id %>
+        <p id="my-message"><strong>Me:</strong> <%= message.body %><br><hr></p>
+      <% else %>
+        <p id="receiver-message"><strong><%= @chat.with(current_user).username %>:</strong> <%= message.body %><br><hr></p>
+      <% end %>
+      <% end %>
+  </div>
+
+  <%= form_for @message do |f| %>
+    <%= hidden_field_tag 'conversation_id', @chat.id %>
+    <%= f.label :body, 'Your message' %>
+    <%= f.text_area :body %>
+
+    <%= f.submit %>
+  <% end %>
+</div>

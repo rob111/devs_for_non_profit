@@ -26,6 +26,7 @@ body{
 .main-page{
   font-size: 50px;
   text-align: center;
+  width: 100%;
 }
 
 .profile-photo{
@@ -36,9 +37,10 @@ body{
 .project-tile{
   border: 2px solid #696969;
   margin-bottom: 15px;
-  margin-left: 0;
+  // margin-left: 0;
   background-color: #87afc7;
   padding: 15px;
+  font-size: 1.2rem;
 }
 
 .dropdown{
@@ -71,4 +73,35 @@ div.main-page-projects :hover{
 
 .main-page-projects{
   font-size: 25px;
+}
+
+#my-message{
+  text-align: right;
+}
+
+.button:active {
+  transform: translateY(4px);
+}
+
+.button:hover {
+  background-color: #304529;
+}
+
+.button {
+  background-color: #4a6741;
+  border: none;
+  color: white;
+  padding: 10px 32px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+input.button{
+  border-radius: 0;
+}
+
+h2#title {
+  text-align: center;
 }

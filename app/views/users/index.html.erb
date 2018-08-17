@@ -1,0 +1,10 @@
+<h2>Users index page</h2>
+
+<ul>
+  <% @users.each do |user| %>
+  <li>
+
+    <%= user.name %><%= link_to 'send a message', new_message_path(receiver_id: user) %>
+  </li>
+  <% end %>
+</ul>
