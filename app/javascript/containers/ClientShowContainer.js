@@ -52,9 +52,12 @@ class ClientShowContainer extends Component {
 
   render(){
     let sendMessageButton;
-    if (this.state.current_user_id != `${this.props.params.id}` ) {
-      sendMessageButton = <a className="button hidden" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
-    }
+    let newProjectLink;
+    console.log(this.state.current_user_id);
+    console.log(`${this.props.params.id}`);
+    sendMessageButton = <a className="button hidden" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
+    newProjectLink = <a className="button" href={`/clients/${this.props.params.id}/projects/new`}>New Project</a>;
+    
     let profilePhoto;
     if (this.state.profile_photo.url != null ) {
       profilePhoto = <img src={this.state.profile_photo.url}/>
@@ -76,7 +79,7 @@ class ClientShowContainer extends Component {
       )
     })
 
-    let newProjectLink = <a className="button" href={`/clients/${this.props.params.id}/projects/new`}>New Project</a>;
+
 
 
     return(

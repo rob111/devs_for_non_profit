@@ -1,5 +1,9 @@
 class ClientsController < ApplicationController
-  before_action :authorize_client
+  before_action :authorize_client, except: [:index, :show]
+
+  def show
+
+  end
 
   def edit
     if !is_given_user_logged_in?

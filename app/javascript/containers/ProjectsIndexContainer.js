@@ -85,7 +85,8 @@ class ProjectsIndexContainer extends Component {
 
     return(
       <div>
-        <h2>List of available projects</h2>
+        <h2>List of Available Projects</h2>
+        Please sign in to see project details
         {projectArr}
       </div>
     )

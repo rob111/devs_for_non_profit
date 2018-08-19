@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
 
-  # possibly needed for ActionCable
-  # mount ActionCable.server => '/cable'
-
-
   namespace :api do
     namespace :v1 do
       resources :chats, only: [:show]
@@ -15,11 +11,15 @@ Rails.application.routes.draw do
     end
   end
 
-  #instead of to do omniauth for :users I made it for :developers
-  devise_for :developers, controllers: { omniauth_callbacks: 'developers/omniauth_callbacks' }
+  # devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
+
+  devise_for :developers, :controllers => { :omniauth_callbacks => "callbacks" }
   devise_for :clients
   #omniauth
-  # devise_for :users
+
+  # devise_scope :user do
+  #   delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+  # end
 
   resources :users, only: [:index, :destroy]
   resources :messages, only: [:new, :create]
