@@ -3,7 +3,7 @@
 
 <ul>
   <% @chats.each do |chat| %>
-    Messaging with <%= chat.with(current_user).full_name %>
+    <%= chat.with(current_user).full_name %>
     <%= link_to 'View conversation', chat_path(chat) %><br>
   <% end %>
 </ul>

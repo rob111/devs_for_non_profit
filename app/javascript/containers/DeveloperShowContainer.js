@@ -13,8 +13,10 @@ class DeveloperShowContainer extends Component {
       projects: [],
       clients: [],
       developer_info: [],
-      current_user_id: ''
+      current_user_id: '',
+      avatar_url: ''
     }
+    this.setDevelopers = this.setDevelopers.bind(this);
   }
 
   componentDidMount(){
@@ -33,19 +35,24 @@ class DeveloperShowContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      this.setState({
-        full_name: body.developer.full_name,
-        username: body.developer.username,
-        email: body.developer.email,
-        company: body.developer.company,
-        profile_photo: body.developer.profile_photo,
-        projects: body.projects,
-        clients: body.clients,
-        developer_info: body.info,
-        current_user_id: body.current_user.id
-      })
+      this.setDevelopers(body);
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
+  }
+
+  setDevelopers(responseBody){
+    const profilePhoto = responseBody.developer.profile_photo.url ? responseBody.developer.profile_photo.url : responseBody.developer.avatar_url;
+    this.setState({
+      full_name: responseBody.developer.full_name,
+      username: responseBody.developer.username,
+      email: responseBody.developer.email,
+      company: responseBody.developer.company,
+      profile_photo: profilePhoto,
+      projects: responseBody.projects,
+      clients: responseBody.clients,
+      developer_info: responseBody.info,
+      current_user_id: responseBody.current_user.id
+    })
   }
 
   render(){
@@ -65,8 +72,8 @@ class DeveloperShowContainer extends Component {
     }
 
     let profilePhoto;
-    if (this.state.profile_photo.url != null ) {
-      profilePhoto = <img src={this.state.profile_photo.url}/>
+    if (this.state.profile_photo != null) {
+      profilePhoto = <img src={this.state.profile_photo}/>
     }else{
       profilePhoto = <img src='/assets/default-picture.jpg'/>
     }
@@ -118,8 +125,6 @@ class DeveloperShowContainer extends Component {
           </div>
         </div>
       </div>
-
-
     )
   }
 }
