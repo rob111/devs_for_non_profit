@@ -34,14 +34,16 @@ body{
   height: auto;
 }
 
-.project-tile{
+.project-tile, .chats{
   border: 2px solid #696969;
   margin-bottom: 15px;
-  // margin-left: 0;
   background-color: #3a88bc;
   padding: 15px;
   font-size: 1.2rem;
   color: #FFFFFF;
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow:    0 0 5px black;
+  box-shadow:         0 0 5px black;
 }
 
 .dropdown{
@@ -61,7 +63,7 @@ body{
   border: 2px solid #787878;
   padding: 20px 20px 20px 20px;
   position: relative;
-  top: 50%;
+  top: 35%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -105,4 +107,23 @@ input.button{
 
 h2#title {
   text-align: center;
+}
+
+#note {
+    position: relative;
+    margin-bottom: 15px;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #fde073;
+    text-align: center;
+    line-height: 2.5;
+    overflow: hidden;
+    -webkit-box-shadow: 0 0 5px black;
+    -moz-box-shadow:    0 0 5px black;
+    box-shadow:         0 0 5px black;
+}
+
+div.charts{
+  color: white;
 }

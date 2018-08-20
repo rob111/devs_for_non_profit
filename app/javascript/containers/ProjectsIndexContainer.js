@@ -37,6 +37,10 @@ class ProjectsIndexContainer extends Component {
 
 
   render() {
+    let note;
+    if (this.state.active_user_id == null) {
+      note = <div id="note">Please sign in to see project details!</div>
+    }
     let projectArr;
     const activeProjects = this.state.projects.filter(project => {
       if(project.status == 'Completed' || project.status == 'Canceled'){
@@ -49,17 +53,15 @@ class ProjectsIndexContainer extends Component {
       projectArr = activeProjects.map(project => {
         return(
           <div>
-
-                <ProjectTile
-                key={project.id}
-                id={project.id}
-                description={project.description}
-                status={project.status}
-                deadline={project.deadline}
-                price={project.price}
-                link={`/projects/${project.id}`}
-                />
-
+            <ProjectTile
+            key={project.id}
+            id={project.id}
+            description={project.description}
+            status={project.status}
+            deadline={project.deadline}
+            price={project.price}
+            link={`/projects/${project.id}`}
+            />
           </div>
         )
       })
@@ -85,8 +87,8 @@ class ProjectsIndexContainer extends Component {
 
     return(
       <div>
-        <h2>List of Available Projects</h2>
-        Please sign in to see project details
+        <h2 id="title">List of Available Projects</h2>
+        {note}
         {projectArr}
       </div>
     )
