@@ -196,6 +196,7 @@ class ProjectShowContainer extends Component {
     }
 
     let developersArr = this.state.projectDevelopers.map(developer => {
+      let profilePhoto = developer.profile_photo.url ? developer.profile_photo.url : developer.avatar_url;
       return(
         <DeveloperTile
           key={developer.id}
@@ -203,7 +204,7 @@ class ProjectShowContainer extends Component {
           username={developer.username}
           fullName={developer.full_name}
           email={developer.email}
-          photo={developer.profile_photo.url}
+          photo={profilePhoto}
           />
       )
     })

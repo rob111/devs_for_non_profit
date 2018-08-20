@@ -3,7 +3,6 @@ class Api::V1::ChatsController < ApplicationController
 
 
   def show
-    # binding.pry
     chat = Chat.find_by(author_id: current_user.id)
     messages = chat.messages
 
@@ -21,9 +20,4 @@ class Api::V1::ChatsController < ApplicationController
     }
   end
 
-  def messages_json
-    # {
-    #   messages
-    # }
-  end
 end

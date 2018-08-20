@@ -35,6 +35,7 @@ class DevelopersIndexContainer extends Component {
   render(){
 
     let developersArr = this.state.allDevelopers.map(developer => {
+      let profilePhoto = developer.profile_photo.url ? developer.profile_photo.url : developer.avatar_url;
       return(
         <DeveloperTile
           key={developer.id}
@@ -42,7 +43,7 @@ class DevelopersIndexContainer extends Component {
           username={developer.username}
           fullName={developer.full_name}
           email={developer.email}
-          photo={developer.profile_photo.url}
+          photo={profilePhoto}
           />
       )
     })

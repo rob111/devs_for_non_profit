@@ -21,7 +21,7 @@
   <%= f.label :price %>
   <%= f.text_field :price %>
 
-    <%= f.submit 'Add Project', {class: 'btn-and-link'} %>
+    <%= f.submit 'Add Project', class: 'button' %>
   <% end %>
 <% else %>
   <% flash.now[:alert] = "You need to log in first." %>
