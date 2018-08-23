@@ -4,7 +4,7 @@ class Api::V1::ClientsController < ApiController
     render json: {
       client: serialized_client,
       projects: serialized_projects,
-      client_info: serialized_client_info,
+      client_info: Client.find(params[:id].client_info),
       current_user: {username: current_user.username, id: current_user.id}
     }
   end
