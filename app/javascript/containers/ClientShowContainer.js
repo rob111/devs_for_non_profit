@@ -11,9 +11,7 @@ class ClientShowContainer extends Component {
       company: '',
       profile_photo: '',
       projects: [],
-      company_size: '',
-      rep_position: '',
-      description: '',
+      client_info: [],
       current_user_id: null
     }
   }
@@ -41,9 +39,7 @@ class ClientShowContainer extends Component {
         company: body.client.company,
         profile_photo: body.client.profile_photo,
         projects: body.projects,
-        company_size: body.client_info.company_size,
-        rep_position: body.client_info.rep_position,
-        description: body.client_info.description,
+        client_info: body.client_info,
         current_user_id: body.client.id
       })
     })
@@ -57,7 +53,20 @@ class ClientShowContainer extends Component {
     console.log(`${this.props.params.id}`);
     sendMessageButton = <a className="button hidden" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
     newProjectLink = <a className="button" href={`/clients/${this.props.params.id}/projects/new`}>New Project</a>;
-    
+
+    let editProfileMessage = '';
+    let companySize = '';
+    let description = '';
+    let repPosition = '';
+    if (this.state.client_info != null && this.state.client_info.description != '') {
+      companySize = <div>Company size: {this.state.client_info.company_size} people</div>;
+      description = <div>About company: {this.state.client_info.description}</div>;
+      repPosition = <div>Title: {this.state.client_info.rep_position}</div>;
+    }else if(this.props.params.id == this.state.current_user_id){
+      editProfileMessage = <div className="edit-message">Please add your information.</div>;
+    }
+
+
     let profilePhoto;
     if (this.state.profile_photo.url != null ) {
       profilePhoto = <img src={this.state.profile_photo.url}/>
@@ -79,9 +88,6 @@ class ClientShowContainer extends Component {
       )
     })
 
-
-
-
     return(
       <div>
         <div className="row">
@@ -91,15 +97,14 @@ class ClientShowContainer extends Component {
           <div className="large-8 medium-8 small-12 columns">
             <div className="full-name"><h2>{this.state.full_name}</h2></div>
             <hr/>
-            <div>Title: {this.state.rep_position}</div>
+            {editProfileMessage}
+            <div>{repPosition}</div>
             <div className="company-name">Company: {this.state.company}</div>
             <div className="email">Email: {this.state.email}</div>
-            <div>Company size: {this.state.company_size} people</div>
-            <div>About company: {this.state.description}</div>
+            <div>{companySize}</div>
+            <div>{description}</div>
             <div>{sendMessageButton}</div>
           </div>
-          <div></div>
-          <div></div>
         </div>
         <div className="row">
           <div className="small-12 medium-4 large-2 columns"></div>
@@ -111,10 +116,8 @@ class ClientShowContainer extends Component {
         </div>
       </div>
 
-
     )
   }
 }
-
 
 export default ClientShowContainer;

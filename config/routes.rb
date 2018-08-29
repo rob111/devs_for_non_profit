@@ -11,23 +11,21 @@ Rails.application.routes.draw do
     end
   end
 
-  # devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
-
   devise_for :developers, :controllers => { :omniauth_callbacks => "callbacks" }
   devise_for :clients
-  #omniauth
-
-  # devise_scope :user do
-  #   delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
-  # end
 
   resources :users, only: [:index, :destroy]
   resources :messages, only: [:new, :create]
   resources :chats, only: [:index, :show]
   resources :projects
-  resources :developers
+
+  resources :developers do
+    resources :developer_infos, only: [:new, :create, :edit, :update]
+  end
+  
   resources :clients do
     resources :projects
+    resources :client_infos, only: [:new, :create, :edit, :update]
   end
 
   namespace :dashboard do

@@ -35,7 +35,11 @@
             <li class="has-dropdown">
               <a href="#">Signed in as <%= current_user.username %></a>
               <ul class="dropdown">
+                <li><%= link_to 'Add Info', new_developer_developer_info_path(current_user.id) %></li>
                 <li><%= link_to 'Edit Profile', edit_developer_registration_path %></li>
+                <% if current_user.developer_info %>
+                  <li><%= link_to 'Edit Info', edit_developer_developer_info_path(current_user.id, current_user.developer_info.id) %></li>
+                <% end %>
               </ul>
             </li>
             <li><%= link_to 'Dashboard', developer_path(current_user) %></li>
@@ -47,7 +51,11 @@
             <li class="has-dropdown">
               <a href="#">Signed in as <%= current_user.username %></a>
               <ul class="dropdown">
+                <li><%= link_to 'Add Info', new_client_client_info_path(current_user.id) %></li>
                 <li><%= link_to 'Edit Profile', edit_client_registration_path %></li>
+                <% if current_user.client_info %>
+                  <li><%= link_to 'Edit Info', edit_client_client_info_path(current_user.id, current_user.client_info.id) %></li>
+                <% end %>
               </ul>
             </li>
             <li><%= link_to 'Dashboard', client_path(current_user) %></li>
