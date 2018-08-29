@@ -56,19 +56,21 @@ class DeveloperShowContainer extends Component {
   }
 
   render(){
-
     let sendMessageButton;
     if (this.state.current_user_id != `${this.props.params.id}` ) {
       sendMessageButton = <a className="button" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
     }
-    let developerInfo;
+
+    let editProfileMessage = '';
     let yearOfExperience = '';
     let technologies = '';
     let rate = '';
-    if (this.state.developer_info != null) {
+    if (this.state.developer_info != null && this.state.developer_info.technologies != '') {
       yearOfExperience = <div>Years of experience: {this.state.developer_info.years_of_experience} years</div>;
       technologies = <div>Preferred technologies: {this.state.developer_info.preferred_technologies}</div>;
       rate = <div>Base hourly rate: ${this.state.developer_info.base_hourly_rate}</div>;
+    }else if(this.props.params.id == this.state.current_user_id){
+      editProfileMessage = <div className="edit-message">Please add your information.</div>;
     }
 
     let profilePhoto;
@@ -109,12 +111,13 @@ class DeveloperShowContainer extends Component {
           <div className="large-8 medium-8 small-12 columns">
             <div><h2>{this.state.full_name}</h2></div>
             <hr/>
+            {editProfileMessage}
             <div id="company">Company: {this.state.company}</div>
             <div id="email">Email: {this.state.email}</div>
-            <div>{yearOfExperience}</div>
-            <div>{technologies}</div>
-            <div>{rate}</div>
-            <div>{sendMessageButton}</div>
+            {yearOfExperience}
+            {technologies}
+            {rate}
+            {sendMessageButton}
           </div>
         </div>
         <div className="row">

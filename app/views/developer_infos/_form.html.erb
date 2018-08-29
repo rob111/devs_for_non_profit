@@ -1,0 +1,20 @@
+<%= form_for [@developer, @developer_info] do |f| %>
+  <div class="field">
+    <%= f.label :years_of_experience, 'Years of experience' %> <br />
+    <%= f.text_field :years_of_experience %>
+  </div>
+
+  <div class="field">
+    <%= f.label :preferred_technologies, 'Preferred technologies' %> <br />
+    <%= f.text_field :preferred_technologies %>
+  </div>
+
+  <div class="field">
+    <%= f.label :base_hourly_rate, 'Hourly rate' %> <br />
+    <%= f.text_field :base_hourly_rate %>
+  </div>
+
+  <div class="field">
+    <%= f.submit 'Submit', class: 'button' %>
+  </div>
+<% end %>

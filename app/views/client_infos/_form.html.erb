@@ -1,0 +1,20 @@
+<%= form_for [@client, @client_info] do |f| %>
+  <div class="field">
+    <%= f.label :company_size, 'Company Size' %> <br />
+    <%= f.text_field :company_size %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description, 'About Company' %> <br />
+    <%= f.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%= f.label :rep_position, 'Title' %> <br />
+    <%= f.text_field :rep_position %>
+  </div>
+
+  <div class="field">
+    <%= f.submit 'Submit', class: 'button' %>
+  </div>
+<% end %>

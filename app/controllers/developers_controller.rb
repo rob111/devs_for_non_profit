@@ -6,6 +6,10 @@ class DevelopersController < ApplicationController
 
   end
 
+  def new
+    @developer_info = DeveloperInfo.new
+  end
+
   def edit
     if !is_given_user_logged_in?
       @developer = Developer.find(params[:id])
@@ -33,7 +37,7 @@ class DevelopersController < ApplicationController
   end
 
   def developer_params
-    params.require(:developer).permit(:email, :username, :password, :profile_photo)
+    params.require(:developer).permit(:email, :username, :company, :password, :profile_photo)
   end
 
   def authorize_developer
