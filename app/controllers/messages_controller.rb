@@ -2,8 +2,8 @@ class MessagesController < ApplicationController
   before_action :find_conversation!
 
   def new
-    redirect_to chat_path(@chat) and return if @chat
     @message = current_user.messages.build
+    redirect_to chat_path(@chat) and return if @chat
   end
 
   def create
@@ -11,9 +11,11 @@ class MessagesController < ApplicationController
                                           receiver_id: @receiver.id)
     @message = current_user.messages.build(message_params)
     @message.chat_id = @chat.id
-    @message.save!
-
-    flash[:notice] = "Your message sent successfully!"
+    if @message.save
+      flash[:notice] = "Your message sent successfully!"
+    else
+      flash[:alert] = @message.errors.full_messages.join(', ')
+    end
     redirect_to chat_path(@chat)
   end
 
@@ -30,6 +32,7 @@ class MessagesController < ApplicationController
       @chat = Chat.between(current_user.id, @receiver.id)[0]
     else
       @chat = Chat.find_by(id: params[:conversation_id])
+      @receiver = User.find(@chat.receiver_id)
       redirect_to(root_path) and return unless @chat && @chat.participates?(current_user)
     end
   end

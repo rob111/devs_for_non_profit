@@ -56,7 +56,7 @@ feature 'user adds a new project', %Q{
     find("option[value='2021']").click
 
     click_button 'Add Project'
-  
+
     expect(page).to have_content('Description can\'t be blank, Price can\'t be blank')
   end
 end
