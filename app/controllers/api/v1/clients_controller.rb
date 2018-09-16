@@ -1,11 +1,20 @@
 class Api::V1::ClientsController < ApiController
 
   def show
+
+    if current_user
+      current_user_id = current_user.id
+      current_username = current_user.username
+    else
+      current_user_id = nil
+      current_username = nil
+    end
+
     render json: {
       client: serialized_client,
       projects: serialized_projects,
       client_info: Client.find(params[:id]).client_info,
-      current_user: {username: current_user.username, id: current_user.id}
+      current_user: {username: current_username, id: current_user_id}
     }
   end
 
