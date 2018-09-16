@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   resources :developers do
     resources :developer_infos, only: [:new, :create, :edit, :update]
   end
-  
+
   resources :clients do
     resources :projects
     resources :client_infos, only: [:new, :create, :edit, :update]
