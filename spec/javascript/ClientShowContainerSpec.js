@@ -8,6 +8,7 @@ describe('DeveloperShowContainerSpec', () => {
   let client;
   let projects;
   let client_info;
+  let current_user;
 
   beforeEach(() => {
     client = {
@@ -34,12 +35,16 @@ describe('DeveloperShowContainerSpec', () => {
         company_size: "25",
         description: "small non-profit organization",
         rep_position: "Manager"
+    },
+    current_user = {
+      username: 'client1',
+      id: 1
     }
 
     fetchMock.get(`/api/v1/clients/${client.id}`, {
       credentials: 'same-origin',
       status: 200,
-      body: { client: client, projects: projects, client_info: client_info }
+      body: { client: client, projects: projects, client_info: client_info, current_user: current_user }
     })
     wrapper = mount(<ClientShowContainer params={{id: client.id}} />)
   });
