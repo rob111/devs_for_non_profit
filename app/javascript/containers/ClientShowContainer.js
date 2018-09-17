@@ -40,7 +40,7 @@ class ClientShowContainer extends Component {
         profile_photo: body.client.profile_photo,
         projects: body.projects,
         client_info: body.client_info,
-        current_user_id: body.client.id
+        current_user_id: body.current_user.id
       })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -50,9 +50,11 @@ class ClientShowContainer extends Component {
     let sendMessageButton;
     let newProjectLink;
     console.log(this.state.current_user_id);
-    console.log(`${this.props.params.id}`);
+    console.log(this.props.params.id);
     sendMessageButton = <a className="button hidden" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
-    newProjectLink = <a className="button" href={`/clients/${this.props.params.id}/projects/new`}>New Project</a>;
+    if (this.state.current_user_id == this.props.params.id) {
+      newProjectLink = <a className="button" href={`/clients/${this.props.params.id}/projects/new`}>New Project</a>;
+    }
 
     let editProfileMessage = '';
     let companySize = '';
@@ -65,7 +67,6 @@ class ClientShowContainer extends Component {
     }else if(this.props.params.id == this.state.current_user_id){
       editProfileMessage = <div className="edit-message">Please add your information.</div>;
     }
-
 
     let profilePhoto;
     if (this.state.profile_photo.url != null ) {
