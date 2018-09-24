@@ -9,6 +9,7 @@
  - Sign Up with OAuth2 github
  - Messaging system
  - Reactjs front end
+ - Redux
  - Ruby on Rails back end
  - PostgreSQL
  - Foundation 5 styling
