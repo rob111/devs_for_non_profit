@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
-// import {} from '../modules';
+import developersReducer from '../reducer/developers'
+
 
 const rootReducer = combineReducers({
-  //groceries
+  developer: developersReducer
 });
 
 export default rootReducer;

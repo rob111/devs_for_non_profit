@@ -1,130 +1,121 @@
 import React, { Component } from 'react';
 import DeveloperProjectTile from '../components/DeveloperProjectTile';
+import {connect} from 'react-redux';
+import * as developerActions from '../actions/developers';
 
 class DeveloperShowContainer extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      full_name: '',
-      username: '',
-      email: '',
-      company: '',
-      profile_photo: '',
-      projects: [],
-      clients: [],
-      developer_info: [],
-      current_user_id: '',
-      avatar_url: ''
-    }
-    this.setDevelopers = this.setDevelopers.bind(this);
   }
 
   componentDidMount(){
-
-    fetch(`/api/v1/developers/${this.props.params.id}`, {
-      credentials: 'same-origin'
-    })
-    .then(response => {
-      if (response.ok) {
-        return response;
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`,
-          error = new Error(errorMessage);
-        throw(error);
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
-      this.setDevelopers(body);
-    })
-    .catch(error => console.error(`Error in fetch: ${error.message}`));
+    this.props.fetchDeveloperAction(this.props.params.id);
   }
 
-  setDevelopers(responseBody){
-    const profilePhoto = responseBody.developer.profile_photo.url ? responseBody.developer.profile_photo.url : responseBody.developer.avatar_url;
-    this.setState({
-      full_name: responseBody.developer.full_name,
-      username: responseBody.developer.username,
-      email: responseBody.developer.email,
-      company: responseBody.developer.company,
-      profile_photo: profilePhoto,
-      projects: responseBody.projects,
-      clients: responseBody.clients,
-      developer_info: responseBody.info,
-      current_user_id: responseBody.current_user.id
-    })
+  getSendMessageButton() {
+    const currentUser = this.props.current_user;
+    if (currentUser && (currentUser.id !== this.props.params.id))
+      return <a
+          className="button"
+          href={`/messages/new?receiver_id=${this.props.params.id}`}
+          >
+          Send Message
+        </a>
   }
 
-  render(){
-    let sendMessageButton;
-    if (this.state.current_user_id != `${this.props.params.id}` ) {
-      sendMessageButton = <a className="button" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
-    }
+  getYearsOfExperience() {
+    const info = this.props.info;
+    if (info && info.years_of_experience)
+      return <div>
+        Years of experience: {info.years_of_experience} years
+      </div>
+  }
 
-    let editProfileMessage = '';
-    let yearOfExperience = '';
-    let technologies = '';
-    let rate = '';
-    if (this.state.developer_info != null && this.state.developer_info.technologies != '') {
-      yearOfExperience = <div>Years of experience: {this.state.developer_info.years_of_experience} years</div>;
-      technologies = <div>Preferred technologies: {this.state.developer_info.preferred_technologies}</div>;
-      rate = <div>Base hourly rate: ${this.state.developer_info.base_hourly_rate}</div>;
-    }else if(this.props.params.id == this.state.current_user_id){
-      editProfileMessage = <div className="edit-message">Please add your information.</div>;
-    }
+  getTechnologies() {
+    const info = this.props.info;
+    if (info && info.preferred_technologies)
+      return <div>
+        Preferred technologies: {info.preferred_technologies}
+      </div>
+  }
 
-    let profilePhoto;
-    if (this.state.profile_photo != null) {
-      profilePhoto = <img src={this.state.profile_photo}/>
-    }else{
-      profilePhoto = <img src='/assets/default-picture.jpg'/>
-    }
-    let clientCompany = '';
-    let clientFullName = '';
-    let developerProjects = this.state.projects.map(project => {
-      this.state.clients.forEach( client => {
-        if(client.id === project.client_id){
-          clientCompany = client.company;
-          clientFullName = client.full_name;
-        }
+  getRate() {
+    const info = this.props.info;
+    if (info && info.base_hourly_rate)
+      return <div>
+        Base hourly rate: {info.base_hourly_rate}
+      </div>
+  }
+
+  getEditProfileMessage() {
+    const currentUser = this.props.current_user;
+    if (currentUser && (currentUser.id === this.props.params.id))
+      return <div className="edit-message">Please add your information.</div>
+  }
+
+  getDeveloperProjects() {
+    const developer = this.props.developer;
+    const projects = this.props.projects
+    const clients = this.props.clients;
+
+    if (developer && clients.length && projects.length)
+      return projects.map(project => {
+        const client = clients.find(client => client.id === project.client_id);
+        const clientCompany = client ? client.company : '';
+        const clientFullName = client ? client.full_name : '';
+        return(
+          <DeveloperProjectTile
+            key={project.id}
+            id={project.id}
+            description={project.description}
+            status={project.status}
+            deadline={project.deadline}
+            price={project.price}
+            clientCompany={clientCompany}
+            clientFullName={clientFullName}
+            />
+        )
       })
-      return(
-        <DeveloperProjectTile
-          key={project.id}
-          id={project.id}
-          description={project.description}
-          status={project.status}
-          deadline={project.deadline}
-          price={project.price}
-          clientCompany={clientCompany}
-          clientFullName={clientFullName}
-          />
-      )
-    })
+  }
+
+  getPhoto() {
+    const defaultUrl = '/assets/default-picture.jpg';
+    let avatar;
+    let profilePhoto
+    if (this.props.developer)
+      avatar = this.props.developer.avatar_url;
+    if (this.props.developer && this.props.developer.profile_photo)
+      profilePhoto = this.props.developer.profile_photo.url;
+
+    const url = profilePhoto ? profilePhoto : avatar;
+    return <img src={url ? url : defaultUrl}/>
+  }
+
+  render() {
 
     return(
       <div>
         <div className="row">
           <div className="small-12 medium-4 large-2 columns profile-photo">
-            {profilePhoto}
+            {this.getPhoto()}
           </div>
           <div className="large-8 medium-8 small-12 columns">
-            <div><h2>{this.state.full_name}</h2></div>
+            <div><h2>{this.props.developer.full_name}</h2></div>
             <hr/>
-            {editProfileMessage}
-            <div id="company">Company: {this.state.company}</div>
-            <div id="email">Email: {this.state.email}</div>
-            {yearOfExperience}
-            {technologies}
-            {rate}
-            {sendMessageButton}
+            {this.getEditProfileMessage()}
+            <div id="company">Company: {this.props.developer.company}</div>
+            <div id="email">Email: {this.props.developer.email}</div>
+            {this.getYearsOfExperience()}
+            {this.getTechnologies()}
+            {this.getRate()}
+            {this.getSendMessageButton()}
           </div>
         </div>
         <div className="row">
           <div className="small-12 medium-4 large-2 columns"></div>
           <div className="large-8 medium-8 small-12 columns">
             <h2 id="title">Developer Projects</h2>
-            <ul>{developerProjects}</ul>
+            <ul>{this.getDeveloperProjects()}</ul>
           </div>
         </div>
       </div>
@@ -133,4 +124,13 @@ class DeveloperShowContainer extends Component {
 }
 
 
-export default DeveloperShowContainer;
+export default connect(
+  state => ({
+    developer: state.developer.developer,
+    projects: state.developer.projects,
+    clients: state.developer.clients,
+    info: state.developer.info,
+    current_user: state.developer.current_user
+  }),
+  developerActions
+)(DeveloperShowContainer);
