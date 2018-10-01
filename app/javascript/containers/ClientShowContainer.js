@@ -23,35 +23,42 @@ class ClientShowContainer extends Component {
     return <img src={url}/>
   }
 
-  render(){
-    let sendMessageButton;
-    let newProjectLink;
+  getSendMessageButton() {
     if(this.props.current_user.id != this.props.params.id)
-      sendMessageButton = <a className="button hidden" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
-    if (this.props.current_user.id == this.props.params.id) {
-      newProjectLink = <a className="button" href={`/clients/${this.props.params.id}/projects/new`}>New Project</a>;
-    }
+      return <a className="button hidden" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
+  }
 
-    let editProfileMessage = '';
-    let companySize = '';
-    let description = '';
-    let repPosition = '';
-    if (this.props.client_info != null && this.props.client_info.description != '') {
-      companySize = <div>Company size: {this.props.client_info.company_size} people</div>;
-      description = <div>About company: {this.props.client_info.description}</div>;
-      repPosition = <div>Title: {this.props.client_info.rep_position}</div>;
-    }else if(this.props.params.id == this.props.current_user.id){
-      editProfileMessage = <div className="edit-message">Please add your information.</div>;
-    }
+  getNewProjectButton(){
+    if (this.props.current_user.id == this.props.params.id)
+      return <a className="button" href={`/clients/${this.props.params.id}/projects/new`}>New Project</a>;
+  }
 
-    // let profilePhoto;
-    // console.log(this.props.client);
-    // if (this.props.client.profile_photo.url != null ) {
-    //   profilePhoto = <img src={this.props.client.profile_photo.url}/>
-    // }else{
-    //   profilePhoto = <img src='/assets/default-picture.jpg'/>
-    // }
+  getEditProfileMessage(){
+    const currentUser = this.props.current_user;
+    if(currentUser && (currentUser.id === this.props.params.id))
+      return <div className="edit-message">Please add your information.</div>;
 
+  }
+
+  getCompanySize() {
+    const info = this.props.client_info;
+    if(info && info.company_size)
+      return <div>Company size: {this.props.client_info.company_size} people</div>;
+  }
+
+  getDescription() {
+    const info = this.props.client_info;
+    if(info && info.description)
+      return <div>About company: {this.props.client_info.description}</div>;
+  }
+
+  getRepPosition() {
+    const info = this.props.client_info;
+    if(info && info.rep_position)
+      return <div>Title: {this.props.client_info.rep_position}</div>;
+  }
+
+  getClientProjects() {
     let clientProjects = this.props.projects.map( project => {
       return (
         <ProjectTile
@@ -62,10 +69,13 @@ class ClientShowContainer extends Component {
           deadline={project.deadline}
           price={project.price}
           link={`/projects/${project.id}`}
-        />
+          />
       )
     })
+    return clientProjects;
+  }
 
+  render(){
     return(
       <div>
         <div className="row">
@@ -75,21 +85,21 @@ class ClientShowContainer extends Component {
           <div className="large-8 medium-8 small-12 columns">
             <div className="full-name"><h2>{this.props.client.full_name}</h2></div>
             <hr/>
-            {editProfileMessage}
-            <div>{repPosition}</div>
+            {this.getEditProfileMessage()}
+            {this.getRepPosition()}
             <div className="company-name">Company: {this.props.client.company}</div>
             <div className="email">Email: {this.props.client.email}</div>
-            <div>{companySize}</div>
-            <div>{description}</div>
-            <div>{sendMessageButton}</div>
+            {this.getCompanySize()}
+            {this.getDescription()}
+            {this.getSendMessageButton()}
           </div>
         </div>
         <div className="row">
           <div className="small-12 medium-4 large-2 columns"></div>
           <div className="large-8 medium-8 small-12 columns">
             <h2 id="title">Client Projects</h2>
-            <ul>{clientProjects}</ul>
-            {newProjectLink}
+            <ul>{this.getClientProjects()}</ul>
+            {this.getNewProjectButton()}
           </div>
         </div>
       </div>
