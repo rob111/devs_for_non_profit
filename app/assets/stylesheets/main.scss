@@ -1,18 +1,19 @@
+@import 'extra';
 // Hide controls on small
 $orbit-nav-hide-for-small: true !default;
 $orbit-bullet-hide-for-small: true !default;
 $orbit-timer-hide-for-small: true !default;
 
 .top-bar{
-  background: #1B4F72;
+  background: $navyblue;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button){
-  background: #1B4F72;
+  background: $navyblue;
 }
 
 body{
-  background-color: #FFFAFA;
+  background-color: $backgroundcolor;
 }
 
 .container{
@@ -35,12 +36,12 @@ body{
 }
 
 .project-tile, .chats{
-  border: 2px solid #696969;
+  border: 2px solid $borders;
   margin-bottom: 15px;
-  background-color: #3a88bc;
+  background-color: $tilebackground;
   padding: 15px;
   font-size: 1.2rem;
-  color: #FFFFFF;
+  color: $whitefont;
   -webkit-box-shadow: 0 0 5px black;
   -moz-box-shadow:    0 0 5px black;
   box-shadow:         0 0 5px black;
@@ -60,7 +61,7 @@ body{
 }
 
 .log-in{
-  border: 2px solid #787878;
+  border: 2px solid $borders;
   padding: 20px 20px 20px 20px;
   position: relative;
   top: 35%;
@@ -71,7 +72,7 @@ body{
 
 div.main-page-projects :hover{
   color: white;
-  background-color: #0099CC;
+  background-color: $tilebackground;
 }
 
 .main-page-projects{
@@ -87,11 +88,11 @@ div.main-page-projects :hover{
 }
 
 .button:hover {
-  background-color: #1B4F72;
+  background-color: $navyblue;
 }
 
 .button {
-  background-color: #1B4F72;
+  background-color: $navyblue;
   border: none;
   color: white;
   padding: 10px 32px;
@@ -115,7 +116,7 @@ h2#title {
     top: 0;
     left: 0;
     right: 0;
-    background: #fde073;
+    background: $note;
     text-align: center;
     line-height: 2.5;
     overflow: hidden;
@@ -125,7 +126,7 @@ h2#title {
 }
 
 div.charts{
-  color: white;
+  color: $whitefont;
 }
 
 .edit-message{
