@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :chats, only: [:show]
+      resources :chats, only: [:index, :show]
       resources :messages, only: [:create]
       resources :developers, only: [:index, :show, :new]
       resources :clients, only: [:index, :show, :new]

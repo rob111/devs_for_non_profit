@@ -1,6 +1,12 @@
 class Api::V1::ChatsController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
+  def index
+    @chats = Chat.participating(current_user)
+    render json: @chats
+
+
+  end
 
   def show
     chat = Chat.find_by(author_id: current_user.id)
