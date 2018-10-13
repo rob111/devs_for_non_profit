@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 
 class TabTile extends Component {
-  // static propTypes = {
-  //   activeTab: PropTypes.string.isRequired,
-  //   label: PropTypes.string.isRequired,
-  //   onClick: PropTypes.func.isRequired,
-  // };
 
   onClick = () => {
-    const { label, onClick } = this.props;
-    onClick(label);
+    const { id, label, onClick } = this.props;
+    onClick(id);
   }
 
   render() {
@@ -18,12 +13,13 @@ class TabTile extends Component {
       props: {
         activeTab,
         label,
+        id
       },
     } = this;
 
     let className = 'tab-list-item';
 
-    if (activeTab === label) {
+    if (activeTab === id) {
       className += ' tab-list-active';
     }
 

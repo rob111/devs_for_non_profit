@@ -5,7 +5,7 @@ import ClientShowContainer from './containers/ClientShowContainer';
 import ProjectShowContainer from './containers/ProjectShowContainer';
 import DevelopersIndexContainer from './containers/DevelopersIndexContainer';
 import ProjectsIndexContainer from './containers/ProjectsIndexContainer';
-import MessagesIndexContainer from './containers/MessagesIndexContainer';
+import MessageTabsContainer from './containers/MessageTabsContainer';
 
 
 const App = (props) => {
@@ -18,7 +18,7 @@ const App = (props) => {
         <Route path='/developers' component={DevelopersIndexContainer} />
         <Route path='/projects/:id' component={ProjectShowContainer} />
         <Route path='/projects' component={ProjectsIndexContainer} />
-        <Route path='/chats' component={MessagesIndexContainer} />
+        <Route path='/chats' component={MessageTabsContainer} />
       </Route>
     </Router>
   )

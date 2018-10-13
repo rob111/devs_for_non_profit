@@ -4,8 +4,6 @@ class Api::V1::ChatsController < ApplicationController
   def index
     @chats = Chat.participating(current_user)
     render json: @chats
-
-
   end
 
   def show
