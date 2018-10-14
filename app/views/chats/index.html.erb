@@ -1,14 +1,1 @@
-
-
-<div id="app">
-
-</div>
-
-<ul>
-    <% @chats.each do |chat| %>
-    <div class="chats">
-      <%= chat.with(current_user).full_name %>
-      <%= link_to 'View conversation', chat_path(chat) %>
-    </div>
-    <% end %>
-</ul>
+<div id="app"></div>

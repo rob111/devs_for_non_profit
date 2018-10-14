@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import TabTile from '../components/TabTile';
+import NewMessageFormContainer from './NewMessageFormContainer';
 
 class MessageTabsContainer extends Component {
   constructor(props) {
@@ -8,8 +9,10 @@ class MessageTabsContainer extends Component {
       this.state = {
         allChats: [],
         activeTab: '',
-        currentUserId: ''
+        currentUserId: '',
+        messages: []
       };
+      this.sendNewMessage = this.sendNewMessage.bind(this);
     }
 
     componentDidMount(){
@@ -27,18 +30,35 @@ class MessageTabsContainer extends Component {
       })
       .then(response => response.json())
       .then(body => {
-        console.log(body);
         this.setState({
           allChats: body,
           activeTab: body[0].id,
-          currentUserId: body[0].current_user_id
+          currentUserId: body[0].current_user_id,
+          messages: body[0].messages
         });
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`));
     }
 
+    sendNewMessage(formPayload){
+      fetch('/api/v1/chats', {
+        method: 'POST',
+        body: JSON.stringify(formPayload),
+        headers: { 'Content-Type': 'application/json'}
+      })
+      .then(response => response.json())
+      .then(body => {
+        this.setState({messages: this.state.messages.concat(body)})
+      })
+    }
+
     onClickTabItem = (tabId) => {
-      this.setState({ activeTab: tabId });
+      let selectedChat = this.state.allChats.find(chat => chat.id == tabId);
+      let messages = selectedChat.messages;
+      this.setState({
+        activeTab: tabId,
+        messages: messages
+      });
     }
 
     getRecepient(currentUserId, authorId, receiverId){
@@ -47,8 +67,7 @@ class MessageTabsContainer extends Component {
 
     getRecepientUsername(chatId){
       let chat = this.state.allChats.find(chat => chatId == chat.id);
-      let recepientUsername = chat.receiver.username;
-      return recepientUsername;
+      return chat.author.id == this.state.currentUserId ? chat.receiver.username : chat.author.username;
     }
 
     getMessages(messages){
@@ -61,20 +80,14 @@ class MessageTabsContainer extends Component {
 
     render() {
       const onClickTabItem = this.onClickTabItem;
-      const chats = this.state.allChats;
-      const activeTab = this.state.activeTab;
+      const { allChats, activeTab } = this.state;
       return (
         <div className="tabs">
           <h2 id='title'>Your conversations</h2>
           <ol className="tab-list">
-            {chats.map((chat) => {
+            {allChats.map((chat) => {
               const recepientId = this.getRecepient(chat.current_user_id, chat.author.id, chat.receiver.id);
-              let fullName = '';
-              if (recepientId == chat.author.id) {
-                fullName = chat.author.full_name;
-              } else {
-                fullName = chat.receiver.full_name;
-              }
+              let fullName = recepientId == chat.author.id ? chat.author.full_name : chat.receiver.full_name;
               return (
                 <TabTile
                   activeTab={activeTab}
@@ -87,13 +100,15 @@ class MessageTabsContainer extends Component {
             })}
           </ol>
           <div className="tab-content">
-            {chats.map((chat) => {
-              if (chat.id !== activeTab){
-                return undefined;
-              } else {
-                return this.getMessages(chat.messages);
-              }
-            })}
+            {this.getMessages(this.state.messages)
+            }
+          </div>
+          <div>
+            <NewMessageFormContainer
+              currentUserId={this.state.currentUserId}
+              activeTab={this.state.activeTab}
+              sendNewMessage={this.sendNewMessage}
+            />
           </div>
         </div>
       );
