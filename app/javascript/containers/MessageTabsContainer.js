@@ -16,28 +16,55 @@ class MessageTabsContainer extends Component {
     }
 
     componentDidMount(){
-      fetch(`/api/v1/chats`, {
-        credentials: 'same-origin'
-      })
-      .then(response => {
-        if (response.ok) {
-          return response;
-        } else {
-          let errorMessage = `${response.status} (${response.statusText})`,
+      // debugger;
+      if (this.props.params.id !== undefined) {
+        fetch(`/api/v1/chats/${this.props.params.id}`, {
+          credentials: 'same-origin'
+        })
+        .then(response => {
+          if (response.ok) {
+            return response;
+          } else {
+            let errorMessage = `${response.status} (${response.statusText})`,
             error = new Error(errorMessage);
-          throw(error);
-        }
-      })
-      .then(response => response.json())
-      .then(body => {
-        this.setState({
-          allChats: body,
-          activeTab: body[0].id,
-          currentUserId: body[0].current_user_id,
-          messages: body[0].messages
-        });
-      })
-      .catch(error => console.error(`Error in fetch: ${error.message}`));
+            throw(error);
+          }
+        })
+        .then(response => response.json())
+        .then(body => {
+          let last = body.length - 1;
+          this.setState({
+            allChats: body,
+            activeTab: body[last].id,
+            currentUserId: body[last].current_user_id,
+            messages: body[last].messages
+          });
+        })
+        .catch(error => console.error(`Error in fetch: ${error.message}`));
+      } else {
+        fetch(`/api/v1/chats`, {
+          credentials: 'same-origin'
+        })
+        .then(response => {
+          if (response.ok) {
+            return response;
+          } else {
+            let errorMessage = `${response.status} (${response.statusText})`,
+            error = new Error(errorMessage);
+            throw(error);
+          }
+        })
+        .then(response => response.json())
+        .then(body => {
+          this.setState({
+            allChats: body,
+            activeTab: body[0].id,
+            currentUserId: body[0].current_user_id,
+            messages: body[0].messages
+          });
+        })
+        .catch(error => console.error(`Error in fetch: ${error.message}`));
+      }
     }
 
     sendNewMessage(formPayload){
@@ -84,31 +111,32 @@ class MessageTabsContainer extends Component {
       return (
         <div className="tabs">
           <h2 id='title'>Your conversations</h2>
-          <ol className="tab-list">
-            {allChats.map((chat) => {
-              const recepientId = this.getRecepient(chat.current_user_id, chat.author.id, chat.receiver.id);
-              let fullName = recepientId == chat.author.id ? chat.author.full_name : chat.receiver.full_name;
-              return (
-                <TabTile
-                  activeTab={activeTab}
-                  key={chat.id}
-                  id={chat.id}
-                  label={fullName}
-                  onClick={onClickTabItem}
+          <div className="flex-grid-thirds">
+            <div className="col">
+              <ol className="tab-list">
+                {allChats.map((chat) => {
+                  const recepientId = this.getRecepient(chat.current_user_id, chat.author.id, chat.receiver.id);
+                  let fullName = recepientId == chat.author.id ? chat.author.full_name : chat.receiver.full_name;
+                  return (
+                    <TabTile
+                      activeTab={activeTab}
+                      key={chat.id}
+                      id={chat.id}
+                      label={fullName}
+                      onClick={onClickTabItem}
+                      />
+                  );
+                })}
+              </ol>
+            </div>
+            <div className="tab-content col">
+              {this.getMessages(this.state.messages)}
+              <NewMessageFormContainer
+                currentUserId={this.state.currentUserId}
+                activeTab={this.state.activeTab}
+                sendNewMessage={this.sendNewMessage}
                 />
-              );
-            })}
-          </ol>
-          <div className="tab-content">
-            {this.getMessages(this.state.messages)
-            }
-          </div>
-          <div>
-            <NewMessageFormContainer
-              currentUserId={this.state.currentUserId}
-              activeTab={this.state.activeTab}
-              sendNewMessage={this.sendNewMessage}
-            />
+            </div>
           </div>
         </div>
       );

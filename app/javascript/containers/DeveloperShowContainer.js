@@ -17,7 +17,7 @@ class DeveloperShowContainer extends Component {
     if (currentUser && (currentUser.id !== this.props.params.id))
       return <a
           className="button"
-          href={`/messages/new?receiver_id=${this.props.params.id}`}
+          href={`/chats/${this.props.developer.id}`}
           >
           Send Message
         </a>
