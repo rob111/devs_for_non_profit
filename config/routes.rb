@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   devise_for :clients
 
   resources :users, only: [:index, :destroy]
-  resources :messages, only: [:new, :create]
   resources :chats, only: [:index, :show]
   resources :projects
 

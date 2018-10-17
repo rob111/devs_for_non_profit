@@ -25,7 +25,7 @@ class ClientShowContainer extends Component {
 
   getSendMessageButton() {
     if(this.props.current_user.id != this.props.params.id)
-      return <a className="button hidden" href={`/messages/new?receiver_id=${this.props.params.id}`}>Send Message</a>;
+      return <a className="button hidden" href={`/chats/${this.props.client.id}`}>Send Message</a>;
   }
 
   getNewProjectButton(){

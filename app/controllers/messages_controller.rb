@@ -7,6 +7,7 @@ class MessagesController < ApplicationController
   end
 
   def create
+    # binding.pry
     @chat ||= Chat.create(author_id: current_user.id,
                                           receiver_id: @receiver.id)
     @message = current_user.messages.build(message_params)

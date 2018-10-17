@@ -15,3 +15,22 @@
   border: solid #ccc;
   border-width: 1px 1px 0 1px;
 }
+
+
+.flex-grid-thirds {
+  display: flex;
+  justify-content: space-between;
+}
+.flex-grid-thirds .tab-list {
+  width: 20%;
+}
+.flex-grid-thirds .tab-content {
+  width: 50%;
+}
+
+.flex-grid {
+  margin: 0 0 5px 0;
+}
+.col {
+  padding: 5px;
+}

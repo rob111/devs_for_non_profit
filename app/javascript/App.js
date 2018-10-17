@@ -19,6 +19,7 @@ const App = (props) => {
         <Route path='/projects/:id' component={ProjectShowContainer} />
         <Route path='/projects' component={ProjectsIndexContainer} />
         <Route path='/chats' component={MessageTabsContainer} />
+        <Route path='/chats/:id' component={MessageTabsContainer} />
       </Route>
     </Router>
   )
