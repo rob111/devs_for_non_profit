@@ -8,7 +8,8 @@ class NewMessageFormContainer extends Component {
     this.state = {
       body: '',
       chat_id: this.props.activeTab,
-      user_id: this.props.currentUserId
+      user_id: this.props.currentUserId,
+      errors: {}
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -19,39 +20,69 @@ class NewMessageFormContainer extends Component {
 
   handleSubmit(event){
     event.preventDefault();
-    let newMessage = {
-      user_id: this.props.currentUserId,
-      chat_id: this.props.activeTab,
-      body: this.state.body
-    };
-    this.props.sendNewMessage(newMessage);
-    this.handleClearForm(event);
+    if (this.validateMessage(this.state.body)) {
+      let newMessage = {
+        user_id: this.props.currentUserId,
+        chat_id: this.props.activeTab,
+        body: this.state.body
+      };
+      this.props.sendNewMessage(newMessage);
+      this.handleClearForm(event);
+    }
   }
 
   handleChange(event){
+    this.validateMessage(event.target.value);
     this.setState({ body: event.target.value});
   }
 
   handleClearForm(event){
     event.preventDefault();
-    this.setState({ body: '' });
+    this.setState({
+      body: '',
+      errors: {}
+     });
   }
 
-  validateMessage(){
-
+  validateMessage(input){
+    if(input.trim() === ''){
+      let newError = {body: 'You must enter a message.'}
+      this.setState({ errors: Object.assign(this.state.errors, newError) })
+      return false;
+    }else{
+      let errorState = this.state.errors;
+      delete errorState.body;
+      this.setState({ errors: errorState })
+      return true;
+    }
   }
 
   render(){
+
+    let errorDiv;
+    let errorItems;
+
+    if(Object.keys(this.state.errors).length > 0) {
+      errorItems = Object.values(this.state.errors).map(error => {
+        return(<li key={error}>{error}</li>)
+      })
+      errorDiv = <div className="callout alert">{errorItems}</div>
+    }
+
     return(
-      <form onSubmit={this.handleSubmit}>
-        <NewMessageBodyField
-          name='message-body'
-          content={this.state.body}
-          onChange={this.handleChange}
-        />
-        <button className='button' onClick={this.handleClearForm}>Clear</button>
-        <input className='button' type='submit' value='Send' />
-      </form>
+      <div className="chat-message clearfix">
+        <form onSubmit={this.handleSubmit}>
+          {errorDiv}
+          <NewMessageBodyField
+            name='message-to-send'
+            content={this.state.body}
+            onChange={this.handleChange}
+            />
+          <button className='button' type='submit'>Send</button>
+
+        </form>
+
+      </div>
     )
   }
 }

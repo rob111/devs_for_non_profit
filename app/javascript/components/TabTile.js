@@ -13,23 +13,28 @@ class TabTile extends Component {
       props: {
         activeTab,
         label,
-        id
+        id,
+        url
       },
     } = this;
 
-    let className = 'tab-list-item';
-
-    if (activeTab === id) {
-      className += ' tab-list-active';
-    }
+    let className = 'clearfix tab-list-active';
 
     return (
       <li
         className={className}
         onClick={onClick}
-      >
-        {label}
-      </li>
+        >
+        <img src={url} alt="avatar" className="clip-circle"/>
+        <div className="about">
+          <div className="name">
+            {label}
+          </div>
+          <div className="status">
+            <i className="fa fa-circle online"></i> online
+            </div>
+          </div>
+        </li>
     );
   }
 }

@@ -8,6 +8,9 @@ const NewMessageBodyField = (props) => {
       type='text'
       value={props.content}
       onChange={props.onChange}
+      id='message-to-send'
+      placeholder='Type your message'
+      rows='5'
       />
     </label>
   )
