@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import TabTile from '../components/TabTile';
 import NewMessageFormContainer from './NewMessageFormContainer';
@@ -16,7 +17,6 @@ class MessageTabsContainer extends Component {
     }
 
     componentDidMount(){
-      // debugger;
       if (this.props.params.id !== undefined) {
         fetch(`/api/v1/chats/${this.props.params.id}`, {
           credentials: 'same-origin'
@@ -32,12 +32,21 @@ class MessageTabsContainer extends Component {
         })
         .then(response => response.json())
         .then(body => {
+          let currentChatId;
           let last = body.length - 1;
+          let userId = this.props.params.id;
+          let currentChat = body.find(chat => {
+            if (chat.author.id == userId) {
+              return currentChatId = chat.id;
+            }else if (chat.receiver.id == userId) {
+              return currentChatId = chat.id;
+            }
+          });
           this.setState({
             allChats: body,
-            activeTab: body[last].id,
-            currentUserId: body[last].current_user_id,
-            messages: body[last].messages
+            activeTab: currentChat.id,
+            currentUserId: currentChat.current_user_id,
+            messages: currentChat.messages
           });
         })
         .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -99,24 +108,99 @@ class MessageTabsContainer extends Component {
 
     getMessages(messages){
       const messageOutput = messages.map((message, key) => {
-        let userName = message.user_id == this.state.currentUserId ? 'Me' : this.getRecepientUsername(message.chat_id);
-        return <li key={key}>{`${userName}: ${message.body}`}</li>;
+        let userName;
+        let messageBody;
+        let date = moment(message.created_at).format("MMM DD, YYYY - h:mma");
+
+        if (message.user_id == this.state.currentUserId) {
+          userName = 'Me';
+          messageBody = <li className="clearfix" key={key}>
+            <div className="message-data align-right">
+              <span className="message-data-time" >{date}</span> &nbsp; &nbsp;
+              <span className="message-data-name" >{userName}</span>
+              <i className="fa fa-circle me"></i>
+            </div>
+            <div className="message other-message float-right">
+              {message.body}
+            </div>
+          </li>
+        } else {
+          userName = this.getRecepientUsername(message.chat_id);
+          messageBody = <li key={key}>
+            <div className="message-data">
+              <span className="message-data-name">
+                <i className="fa fa-circle online"></i>
+                {userName}
+              </span>
+              <span className="message-data-time">
+                {date}
+              </span>
+            </div>
+            <div className="message my-message">
+              {message.body}
+            </div>
+          </li>
+        }
+
+        return messageBody;
       });
-      return <ul>{messageOutput}</ul>;
+      return <ul className="chat-history-list">{messageOutput}</ul>;
+    }
+
+    getChatHeader(chatId){
+      let url;
+      let fullName;
+      let chat = this.state.allChats.find(chat => chatId == chat.id);
+      if(chat){
+        chat.author.id == this.state.currentUserId ? chat.receiver.username : chat.author.username;
+        if (chat.author.id == this.state.currentUserId) {
+          fullName = chat.receiver.full_name;
+          url = chat.receiver.profile_photo.url;
+          if(!url){
+            url = chat.receiver.avatar_url;
+          }
+        } else {
+          fullName = chat.author.full_name;
+          url = chat.author.profile_photo.url;
+          if(!url){
+            url = chat.author.avatar_url;
+          }
+        }
+      }
+      return <div className="chat-header clearfix"><img src={url} alt="avatar" className="clip-circle"/>
+      <div className="chat-about">
+        <div className="chat-with">{`Chat with ${fullName}`}</div>
+      </div>
+      <i className="fa fa-star"></i></div>
     }
 
     render() {
       const onClickTabItem = this.onClickTabItem;
       const { allChats, activeTab } = this.state;
       return (
-        <div className="tabs">
-          <h2 id='title'>Your conversations</h2>
-          <div className="flex-grid-thirds">
-            <div className="col">
-              <ol className="tab-list">
+        <div className="messages-container clearfix">
+          <div className="people-list" id="people-list">
+            <div className="search">
+              <input type="text" placeholder="search" />
+            </div>
+              <ul className="list">
                 {allChats.map((chat) => {
+                  let url;
+                  let fullName;
                   const recepientId = this.getRecepient(chat.current_user_id, chat.author.id, chat.receiver.id);
-                  let fullName = recepientId == chat.author.id ? chat.author.full_name : chat.receiver.full_name;
+                  if (recepientId == chat.author.id) {
+                    fullName = chat.author.full_name;
+                    url = chat.author.profile_photo.url;
+                    if(url == null){
+                      url = chat.author.avatar_url;
+                    }
+                  } else {
+                    fullName = chat.receiver.full_name;
+                    url = chat.receiver.profile_photo.url;
+                    if (url == null) {
+                      url = chat.receiver.avatar_url;
+                    }
+                  }
                   return (
                     <TabTile
                       activeTab={activeTab}
@@ -124,20 +208,23 @@ class MessageTabsContainer extends Component {
                       id={chat.id}
                       label={fullName}
                       onClick={onClickTabItem}
+                      url={url}
                       />
                   );
                 })}
-              </ol>
+              </ul>
             </div>
-            <div className="tab-content col">
-              {this.getMessages(this.state.messages)}
+            <div className="chat">
+                {this.getChatHeader(activeTab)}
+              <div className='chat-history'>
+                {this.getMessages(this.state.messages)}
+              </div>
               <NewMessageFormContainer
                 currentUserId={this.state.currentUserId}
                 activeTab={this.state.activeTab}
                 sendNewMessage={this.sendNewMessage}
                 />
             </div>
-          </div>
         </div>
       );
     }
