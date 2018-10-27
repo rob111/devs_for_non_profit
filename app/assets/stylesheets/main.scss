@@ -12,11 +12,6 @@ $orbit-timer-hide-for-small: true !default;
   background: $navyblue;
 }
 
-.info{
-  color: black;
-}
-
-
 body{
   background-color: $backgroundcolor;
 }
@@ -25,7 +20,7 @@ body{
   width: 800px;
   height: 100%;
   margin: 35px auto  35px auto;
-
+  color: black;
 }
 
 .profile-photo{

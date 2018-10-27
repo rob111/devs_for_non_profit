@@ -163,7 +163,7 @@ class ProjectShowContainer extends Component {
           handleSelectChange={this.handleSelectChange}
           projectDevelopers={this.state.projectDevelopers}
           />
-        <button onClick={this.addDeveloper}>Add developer</button>
+        <button className="button" onClick={this.addDeveloper}>Add developer</button>
       </div>
     )
   }
