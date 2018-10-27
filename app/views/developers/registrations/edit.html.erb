@@ -1,6 +1,7 @@
-<h2>Edit Developer</h2>
+<div class="container">
+  <h2>Edit Developer</h2>
 
-<%= form_for(@developer) do |f| %>
+  <%= form_for(@developer) do |f| %>
   <div class="field">
     <%= f.label :username %><br />
     <%= f.text_field :username %>
@@ -19,11 +20,11 @@
   <div class="actions">
     <%= f.submit 'Update Developer', class: 'button' %>
   </div>
-<% end %>
+  <% end %>
 
-<hr>
+  <hr>
 
-<%= form_for(@developer) do |f| %>
+  <%= form_for(@developer) do |f| %>
   <div class="field">
     <%= f.file_field :profile_photo %>
   </div>
@@ -31,12 +32,12 @@
   <div class="actions">
     <%= f.submit  'Upload Photo', class: 'button' %>
   </div>
-<% end %>
+  <% end %>
 
 
-<hr>
+  <hr>
 
-<%= form_for(@developer) do |f| %>
+  <%= form_for(@developer) do |f| %>
   <div class="field">
     <%= f.label :password, "Update Password" %><br />
     <%= f.password_field :password %>
@@ -45,4 +46,6 @@
   <div class="actions">
     <%= f.submit 'Update Password', {class: 'button'}  %>
   </div>
-<% end %>
+  <% end %>
+
+</div>

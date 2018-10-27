@@ -1,8 +1,9 @@
-<% if current_user %>
+<div class="container">
+  <% if current_user %>
   <% if @errors %>
-    <% @errors.each do |error| %>
-      <%= error %><br>
-    <% end %>
+  <% @errors.each do |error| %>
+  <%= error %><br>
+  <% end %>
   <% end %>
 
   <h2>Add New Project</h2>
@@ -15,16 +16,17 @@
   <%= f.date_select :deadline, {
     order: [:day, :month, :year],
     prompt: {
-    day: 'Select day', month: 'Select month', year: 'Select year'
-      },
+      day: 'Select day', month: 'Select month', year: 'Select year'
+    },
     start_year: Date.today.year + 5,
     end_year: Date.today.year},
     {required: true} %>
-  <%= f.label :price %>
-  <%= f.text_field :price %>
+    <%= f.label :price %>
+    <%= f.text_field :price %>
 
     <%= f.submit 'Add Project', class: 'button' %>
-  <% end %>
-<% else %>
-  <% flash.now[:alert] = "You need to log in first." %>
-<% end %>
+    <% end %>
+    <% else %>
+    <% flash.now[:alert] = "You need to log in first." %>
+    <% end %>
+</div>
