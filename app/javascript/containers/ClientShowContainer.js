@@ -82,7 +82,7 @@ class ClientShowContainer extends Component {
           <div className="small-12 medium-4 large-2 columns profile-photo">
             {this.getPhoto()}
           </div>
-          <div className="large-8 medium-8 small-12 columns">
+          <div className="large-8 medium-8 small-12 columns info">
             <div className="full-name"><h2>{this.props.client.full_name}</h2></div>
             <hr/>
             {this.getEditProfileMessage()}

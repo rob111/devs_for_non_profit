@@ -12,22 +12,20 @@ $orbit-timer-hide-for-small: true !default;
   background: $navyblue;
 }
 
+.info{
+  color: black;
+}
+
+
 body{
   background-color: $backgroundcolor;
 }
 
 .container{
   width: 800px;
-  margin: auto;
   height: 100%;
   margin: 35px auto  35px auto;
 
-}
-
-.main-page{
-  font-size: 50px;
-  text-align: center;
-  width: 100%;
 }
 
 .profile-photo{

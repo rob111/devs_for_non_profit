@@ -43,7 +43,7 @@ class DeveloperShowContainer extends Component {
     const info = this.props.info;
     if (info && info.base_hourly_rate)
       return <div>
-        Base hourly rate: {info.base_hourly_rate}
+        Base hourly rate: ${info.base_hourly_rate}
       </div>
   }
 
@@ -99,7 +99,7 @@ class DeveloperShowContainer extends Component {
           <div className="small-12 medium-4 large-2 columns profile-photo">
             {this.getPhoto()}
           </div>
-          <div className="large-8 medium-8 small-12 columns">
+          <div className="large-8 medium-8 small-12 columns info">
             <div><h2>{this.props.developer.full_name}</h2></div>
             <hr/>
             {this.getEditProfileMessage()}

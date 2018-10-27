@@ -6,13 +6,14 @@ import ProjectShowContainer from './containers/ProjectShowContainer';
 import DevelopersIndexContainer from './containers/DevelopersIndexContainer';
 import ProjectsIndexContainer from './containers/ProjectsIndexContainer';
 import MessageTabsContainer from './containers/MessageTabsContainer';
+import HomePageContainer from './containers/HomePageContainer';
 
 
 const App = (props) => {
 
   return (
     <Router history={browserHistory}>
-      <Route path='/'>
+        <Route path='/' component={HomePageContainer} />
         <Route path='/developers/:id' component={DeveloperShowContainer} />
         <Route path='/clients/:id' component={ClientShowContainer} />
         <Route path='/developers' component={DevelopersIndexContainer} />
@@ -20,7 +21,6 @@ const App = (props) => {
         <Route path='/projects' component={ProjectsIndexContainer} />
         <Route path='/chats' component={MessageTabsContainer} />
         <Route path='/chats/:id' component={MessageTabsContainer} />
-      </Route>
     </Router>
   )
 }
